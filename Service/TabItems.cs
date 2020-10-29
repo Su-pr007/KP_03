@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Service
@@ -15,7 +16,7 @@ namespace Service
         // ------------------
         // Window - Используется для передачи текущего окна. Использовать this
         // Count - Количество вкладок
-        public static void Create(MainWindow Window, int Count)
+        public static void Create(TablesWindow Window, int Count)
         {
 
             Brush ColorToBrush = new SolidColorBrush(new Color()
@@ -50,7 +51,7 @@ namespace Service
 
                 TabItem CurrentTabItem = new TabItem()
                 {
-                    Header = "TabItem",
+                    Header = "TabItem" + i.ToString(),
                     Name = "TabItem" + i.ToString(),
                 };
 

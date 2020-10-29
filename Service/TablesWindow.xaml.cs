@@ -16,16 +16,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace Service
 {
     /// <summary>
     /// Логика взаимодействия для Window1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TablesWindow : Window
     {
+        int SelectedTabIndex;
+        object SelectedTab;
+        XElement root = new XElement("TablesWindow.xaml");
 
-        public MainWindow()
+
+        public TablesWindow()
         {
             InitializeComponent();
 
@@ -146,12 +151,40 @@ namespace Service
 
         }
 
+
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            Variables.Clear();
+            new MenuWindow().Show();
             this.Hide();
-            new LoginWindow().Show();
         }
 
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            // POTOM
+            /*try
+            {
+                Console.WriteLine(root.Element("TabItem"+SelectedTabIndex+1).Document.ToString());
+            }
+            catch
+            {
+                Notification.ShowError("Еррор");
+            }*/
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {   
+
+        }
+
+
+        private void TabControlChangedSelection(object sender, SelectionChangedEventArgs e)
+        {
+            // Индекс выбранной вкладки
+            int SelectedIndex = MainTabs.SelectedIndex;
+
+            SelectedTabIndex = SelectedIndex;
+            SelectedTab = MainTabs.Items.GetItemAt(SelectedIndex);
+        }
     }
 }

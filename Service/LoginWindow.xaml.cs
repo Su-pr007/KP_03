@@ -20,7 +20,7 @@ using MySql.Data.MySqlClient;
 namespace Service
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для TablesWindow.xaml
     /// </summary>
     public partial class LoginWindow : Window
     {
@@ -30,10 +30,10 @@ namespace Service
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TryOpenMainWindow(LoginTextBox.Text, PasswordBox.Password);
+            TryOpenTablesWindow(LoginTextBox.Text, PasswordBox.Password);
         }
 
-        public void TryOpenMainWindow(string login, string password)
+        public void TryOpenTablesWindow(string login, string password)
         {
             bool isConnected = false;
             int ProfileId = 0;
@@ -78,8 +78,8 @@ namespace Service
             if (isConnected)
             {
                 Variables.ProfileId = ProfileId;
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
+                MenuWindow menuWindow = new MenuWindow();
+                menuWindow.Show();
                 this.Hide();
             }
         }
@@ -118,7 +118,7 @@ namespace Service
         {
             if (e.Key == Key.Enter)
             {
-                TryOpenMainWindow(LoginTextBox.Text, PasswordBox.Password);
+                TryOpenTablesWindow(LoginTextBox.Text, PasswordBox.Password);
             }
         }
 
@@ -137,7 +137,7 @@ namespace Service
 
         private void GuestButton_Click(object sender, RoutedEventArgs e)
         {
-            TryOpenMainWindow("ServiceOrderer", "12345");
+            TryOpenTablesWindow("ServiceOrderer", "12345");
         }
 
         private void LoginTextBox_KeyDown(object sender, KeyEventArgs e)
