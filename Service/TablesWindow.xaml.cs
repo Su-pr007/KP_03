@@ -41,7 +41,7 @@ namespace Service
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+            ApplicationStop();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -51,53 +51,40 @@ namespace Service
             /*string sql = "SELECT e_id 'Id', e_surname 'Фамилия', e_name_patronymic 'Имя, отчество', e_age 'Возраст', e_sex 'Пол', e_passport_series_and_number 'Серийный номер паспорта', p_name 'Должность' FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";*/
 
 
-            XElement root = XElement.Load("../../TablesWindow.xaml");
 
 
             /*Console.WriteLine("===================================");
             Console.WriteLine("ВИВОД:   "+VisualTreeHelper.GetChild(MainTabs, 0));*/
 
-            IEnumerable<XElement> DataGrids = root.Elements("DataGrid");
-            object MainTabs;
-            try
-            {
-                MainTabs = GetWindow(TablesWindow_Window).FindName("MainTabs");
-            }
-            catch
-            {
-                MainTabs = "Что ты натворил??";
-            }
-            finally
-            {
-
-            }
+            DataGrid griddata = (DataGrid)FindName("DataGridOnTab0");
 
             Console.WriteLine("=========================");
-            Console.WriteLine();
+            Console.WriteLine(griddata);
             Console.WriteLine("=========================");
 
 
+            // -----------------------------------------------
+            // Здесь выбор того что будет добавлено в таблицы
 
-
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < MainTabs.Items.Count; i++)
+            {
+                DataGrid CurrentDataGrid = DataGrids.ElementAt(i);
+                switch (CurrentDataGrid.Name.ToString())
                 {
-                    XElement CurrentDataGrid = DataGrids.ElementAt(i);
-                    switch (CurrentDataGrid.Attribute("x:Name").Value)
-                    {
-                        case "DataGridOnTab0":
-                            FillTable.ByXElement("SELECT * from employees", root.Element("DataGrid"));
-                            break;
-                        case "":
-                            Console.WriteLine("НИчеГО");
-                            break;
-                        case null:
-                            Console.WriteLine("НУЛЛЫ");
-                            break;
-                        default:
+                    case "DataGridOnTab0":
+                        FillTable.ByTableName("SELECT * from employees", CurrentDataGrid);
+                        break;
+                    case "":
+                        Console.WriteLine("НИчеГО");
+                        break;
+                    case null:
+                        Console.WriteLine("НУЛЛЫ");
+                        break;
+                    default:
 
-                            break;
-                    }
+                        break;
                 }
+            }
             /*}
             catch (Exception err)
             {

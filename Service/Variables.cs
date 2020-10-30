@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Service
 {
@@ -23,16 +24,19 @@ namespace Service
         public static LoginWindow LoginWindow_Window;
         public static MenuWindow MenuWindow_Window;
 
+        public static List<DataGrid> DataGrids;
+
 
         public static void InitVariables()
         {
-
             conn = DBUtils.GetDBConnection(DBlogin, DBpassword);
 
             TablesWindow_Window = new TablesWindow();
             ReportWindow_Window = new ReportWindow();
             LoginWindow_Window = new LoginWindow();
             MenuWindow_Window = new MenuWindow();
+
+            DataGrids = new List<DataGrid>();
         }
 
 
@@ -46,6 +50,8 @@ namespace Service
             ReportWindow_Window = null;
             LoginWindow_Window = null;
             MenuWindow_Window = null;
+
+            DataGrids = null;
         }
 
 

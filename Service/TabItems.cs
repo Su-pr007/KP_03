@@ -1,6 +1,9 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,9 +32,10 @@ namespace Service
 
             for (int i = 0; i < Count; i++)
             {
+                string Name = "DataGridOnTab" + i.ToString();
                 DataGrid CurrentDataGrid = new DataGrid()
                 {
-                    Name = "DataGridOnTab" + i.ToString(),
+                    Name = Name,
                     Margin = new Thickness
                     {
                         Left = 10,
@@ -43,6 +47,8 @@ namespace Service
                     MinHeight = 350,
                     IsReadOnly = true,
                 };
+                Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
+                Variables.DataGrids.Add(CurrentDataGrid);
 
                 Grid CurrentGrid = new Grid()
                 {
@@ -61,6 +67,7 @@ namespace Service
                 Window.MainTabs.Items.Add(CurrentTabItem);
             }
         }
+
 
 
 
