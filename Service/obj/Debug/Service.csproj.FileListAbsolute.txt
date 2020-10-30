@@ -37,3 +37,7 @@ C:\Users\Максим\source\repos\Service\Service\obj\Debug\MenuWindow.g.cs
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\MenuWindow.baml
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\TablesWindow.g.cs
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\TablesWindow.baml
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\AddingChangingWindow.g.cs
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\AddingChangingWindow.baml
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\ReportWindow.g.cs
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\ReportWindow.baml

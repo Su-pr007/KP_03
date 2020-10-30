@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static Service.Variables;
 
 namespace Service
 {
@@ -27,7 +28,7 @@ namespace Service
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoginTextBlock.Text = Variables.login;
+            LoginTextBlock.Text = DBlogin;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -37,14 +38,20 @@ namespace Service
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            Variables.Clear();
             this.Hide();
-            new LoginWindow().Show();
+            LoginWindow_Window.Show();
+            ClearVariables();
         }
 
         private void ToTablesButton_Click(object sender, RoutedEventArgs e)
         {
-            new TablesWindow().Show();
+            TablesWindow_Window.Show();
+            this.Hide();
+        }
+
+        private void ToQueries_Click(object sender, RoutedEventArgs e)
+        {
+            ReportWindow_Window.Show();
             this.Hide();
         }
     }

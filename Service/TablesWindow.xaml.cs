@@ -1,8 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
+using Service.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
@@ -16,7 +18,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml;
 using System.Xml.Linq;
+using static Service. Variables;
 
 namespace Service
 {
@@ -27,7 +31,6 @@ namespace Service
     {
         int SelectedTabIndex;
         object SelectedTab;
-        XElement root = new XElement("TablesWindow.xaml");
 
 
         public TablesWindow()
@@ -43,14 +46,63 @@ namespace Service
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             TabItems.Create(this, 3);
 
-            string sql = "SELECT e_id 'Id', e_surname 'Фамилия', e_name_patronymic 'Имя, отчество', e_age 'Возраст', e_sex 'Пол', e_passport_series_and_number 'Серийный номер паспорта', p_name 'Должность' FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";
-
-            FillTable.ByQuery(sql, DataGridEmpRep);
+            /*string sql = "SELECT e_id 'Id', e_surname 'Фамилия', e_name_patronymic 'Имя, отчество', e_age 'Возраст', e_sex 'Пол', e_passport_series_and_number 'Серийный номер паспорта', p_name 'Должность' FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";*/
 
 
+            XElement root = XElement.Load("../../TablesWindow.xaml");
+
+
+            /*Console.WriteLine("===================================");
+            Console.WriteLine("ВИВОД:   "+VisualTreeHelper.GetChild(MainTabs, 0));*/
+
+            IEnumerable<XElement> DataGrids = root.Elements("DataGrid");
+            object MainTabs;
+            try
+            {
+                MainTabs = GetWindow(TablesWindow_Window).FindName("MainTabs");
+            }
+            catch
+            {
+                MainTabs = "Что ты натворил??";
+            }
+            finally
+            {
+
+            }
+
+            Console.WriteLine("=========================");
+            Console.WriteLine();
+            Console.WriteLine("=========================");
+
+
+
+
+            for (int i = 0; i < 3; i++)
+                {
+                    XElement CurrentDataGrid = DataGrids.ElementAt(i);
+                    switch (CurrentDataGrid.Attribute("x:Name").Value)
+                    {
+                        case "DataGridOnTab0":
+                            FillTable.ByXElement("SELECT * from employees", root.Element("DataGrid"));
+                            break;
+                        case "":
+                            Console.WriteLine("НИчеГО");
+                            break;
+                        case null:
+                            Console.WriteLine("НУЛЛЫ");
+                            break;
+                        default:
+
+                            break;
+                    }
+                }
+            /*}
+            catch (Exception err)
+            {
+                Console.WriteLine("ЕРРОРЫ: "+err.Message);
+            }*/
 
 
 
@@ -154,7 +206,7 @@ namespace Service
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            new MenuWindow().Show();
+            MenuWindow_Window.Show();
             this.Hide();
         }
 
@@ -162,14 +214,20 @@ namespace Service
         {
 
             // POTOM
+
             /*try
             {
-                Console.WriteLine(root.Element("TabItem"+SelectedTabIndex+1).Document.ToString());
+                IEnumerable<XElement> asdasd = root.Elements("TabItem");
+
+
+                IEnumerable<XElement> address = from el in root.Elements("TabItem") where (string)el.Attribute("Name") == "TabItem0" select el;
+                foreach (XElement el in address) Console.WriteLine(el);
+                Console.WriteLine("ara ara");
             }
             catch
-            {
+            {*/
                 Notification.ShowError("Еррор");
-            }*/
+            /*}*/
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -185,6 +243,36 @@ namespace Service
 
             SelectedTabIndex = SelectedIndex;
             SelectedTab = MainTabs.Items.GetItemAt(SelectedIndex);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ChangeRowButton_Click(object sender, RoutedEventArgs e)
+        {
+            new AddingChangingWindow(SearchTable()).Show();
+        }
+        public string SearchTable()
+        {
+            string search = "DataGridOnTab" + SelectedTabIndex.ToString();
+            Console.WriteLine(search);
+            foreach (XElement i in new XElement("TablesWindow.xaml").Elements("DataGrid"))
+            {
+                Console.WriteLine(i.Value);
+                if (i.Attribute("Name").Value == search)
+                {
+                    return search;
+                }
+            }
+            return null;
+        }
+
+        // Добавить строку
+        private void AddRowButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

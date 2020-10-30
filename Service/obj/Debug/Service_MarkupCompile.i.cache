@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Максим\source\repos\Service\Service\App.xaml
-3-428304742
+5116126575
 
-141946239629
+16-591465263
 17-1036024070
-LoginWindow.xaml;TablesWindow.xaml;MenuWindow.xaml;
+LoginWindow.xaml;AddingChangingWindow.xaml;ReportWindow.xaml;TablesWindow.xaml;MenuWindow.xaml;
 
 True
 

@@ -1,28 +1,60 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Service
 {
     class Variables
     {
-        public static string login;
-        public static string password;
+        public static string DBlogin;
+        public static string DBpassword;
 
         public static int ProfileId;
 
-        public static MySqlConnection conn = DBUtils.GetDBConnection(login, password);
+        public static MySqlConnection conn;
+        public static TablesWindow TablesWindow_Window;
+        public static ReportWindow ReportWindow_Window;
+        public static LoginWindow LoginWindow_Window;
+        public static MenuWindow MenuWindow_Window;
 
 
-        public static void Clear()
+        public static void InitVariables()
         {
-            login = "";
-            password = "";
+
+            conn = DBUtils.GetDBConnection(DBlogin, DBpassword);
+
+            TablesWindow_Window = new TablesWindow();
+            ReportWindow_Window = new ReportWindow();
+            LoginWindow_Window = new LoginWindow();
+            MenuWindow_Window = new MenuWindow();
+        }
+
+
+        public static void ClearVariables()
+        {
+            DBlogin = "";
+            DBpassword = "";
             ProfileId = 0;
+
+            TablesWindow_Window = null;
+            ReportWindow_Window = null;
+            LoginWindow_Window = null;
+            MenuWindow_Window = null;
+        }
+
+
+
+
+
+        public static void ApplicationStop()
+        {
+            Process.GetCurrentProcess().Kill();
         }
     }
 }

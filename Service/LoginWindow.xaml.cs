@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using static Service.Variables;
 
 namespace Service
 {
@@ -57,6 +58,7 @@ namespace Service
                 }
                 else
                 {
+                    InitVariables();
                     isConnected = true;
                 }
             }
@@ -72,14 +74,13 @@ namespace Service
                 conn.Close();
                 conn.Dispose();
 
-                Variables.login = login;
-                Variables.password = password;
+                DBlogin = login;
+                DBpassword = password;
             }
             if (isConnected)
             {
                 Variables.ProfileId = ProfileId;
-                MenuWindow menuWindow = new MenuWindow();
-                menuWindow.Show();
+                MenuWindow_Window.Show();
                 this.Hide();
             }
         }
@@ -155,7 +156,7 @@ namespace Service
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+            ApplicationStop();
         }
     }
 }

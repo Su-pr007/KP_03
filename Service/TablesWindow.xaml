@@ -11,15 +11,10 @@
         <Button x:Name="ReturnButton" Content="Назад" Panel.ZIndex="1" Width="130" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,2,0" Click="ReturnButton_Click"/>
         <Button x:Name="SearchButton" Content="Поиск по таблице" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,98" VerticalAlignment="Bottom" Click="SearchButton_Click"/>
         <Button x:Name="FilterButton" Content="Фильтр" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,123" VerticalAlignment="Bottom" Click="FilterButton_Click"/>
-        <Button x:Name="DeleteButton" Content="Удаление записей" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,73" VerticalAlignment="Bottom"/>
-        <Button x:Name="ChangeRowButton" Content="Редактировать запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,48" VerticalAlignment="Bottom"/>
-        <Button x:Name="AddRowButton" Content="Добавить запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,23" VerticalAlignment="Bottom"/>
+        <Button x:Name="DeleteButton" Content="Удаление записей" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,73" VerticalAlignment="Bottom" Click="DeleteButton_Click"/>
+        <Button x:Name="ChangeRowButton" Content="Редактировать запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,48" VerticalAlignment="Bottom" Click="ChangeRowButton_Click"/>
+        <Button x:Name="AddRowButton" Content="Добавить запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,23" VerticalAlignment="Bottom" Click="AddRowButton_Click"/>
         <TabControl x:Name="MainTabs" SelectionChanged="TabControlChangedSelection">
-            <TabItem x:Name="EmployeesReport" Header="Отчет по сотрудникам" Height="22" VerticalAlignment="Top">
-                <Grid x:Name="MainGrid" Background="#FFE5E5E5" Margin="0">
-                    <DataGrid x:Name="DataGridEmpRep" Margin="10,10,150,10" MinWidth="600" MinHeight="350" IsReadOnly="True"/>
-                </Grid>
-            </TabItem>
         </TabControl>
 
 
