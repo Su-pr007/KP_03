@@ -64,9 +64,21 @@ namespace Service
             }
             catch (Exception err)
             {
-                Console.WriteLine("Error: " + err.Message);
+                string msg = err.Message;
+                Console.WriteLine("Error: " + msg);
+                Console.WriteLine("=======================");
+                string msgFW = msg.Split(' ').First();
+                switch (msgFW)
+                {
+                    case "Authentication":
+                        Notification.ShowError("Неверный логин или пароль", "Ошибка");
+                        break;
+                    default:
+                        Notification.ShowError(err.Message, "Ошибка");
+                        break;
 
-                Notification.ShowError(err.Message, "Ошибка");
+                }
+
 
             }
             finally

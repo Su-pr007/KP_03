@@ -46,7 +46,39 @@ namespace Service
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            TabItems.Create(this, 3);
+            string[] TabHeaders;
+            switch (ProfileId)
+            {
+                // ServiceManager - Менеджер
+                case 1:
+                    TabHeaders = new string[] { "Employees", "test1", "test2" };
+                    break;
+                // ServiceRepairer - Ремонтник
+                case 2:
+                    TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
+                    break;
+                // ServiceAccountant - Бухгалтер
+                case 3:
+                    TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
+                    break;
+                // ServicePersDepart - Отдел кадров
+                case 4:
+                    TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
+                    break;
+                // ServiceDBAdmin - Администратор БД
+                case 5:
+                    TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
+                    break;
+                // ServiceOrderer - Заказчик
+                case 6:
+                    TabHeaders = new string[] { "Orders" };
+                    break;
+                // Другие
+                default:
+                    TabHeaders = new string[] { };
+                    break;
+            }
+            TabItems.Create(this, TabHeaders);
 
             /*string sql = "SELECT e_id 'Id', e_surname 'Фамилия', e_name_patronymic 'Имя, отчество', e_age 'Возраст', e_sex 'Пол', e_passport_series_and_number 'Серийный номер паспорта', p_name 'Должность' FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";*/
 
@@ -101,37 +133,6 @@ namespace Service
                         string[] TabNames;
                         string[] TabHeaders;
                         // списки вкладок для каждого пользователя
-                        switch (ProfileId)
-                        {
-                            // ServiceManager - Менеджер
-                            case 1:
-                                TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
-                                break;
-                            // ServiceRepairer - Ремонтник
-                            case 2:
-                                TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
-                                break;
-                            // ServiceAccountant - Бухгалтер
-                            case 3:
-                                TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
-                                break;
-                            // ServicePersDepart - Отдел кадров
-                            case 4:
-                                TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
-                                break;
-                            // ServiceDBAdmin - Администратор БД
-                            case 5:
-                                TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
-                                break;
-                            // ServiceOrderer - Заказчик
-                            case 6:
-                                TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
-                                break;
-                            // Другие
-                            default:
-                                TabHeaders = new string[] { "Отдел кадров", "test1", "test2" };
-                                break;
-                        }
 
 
 

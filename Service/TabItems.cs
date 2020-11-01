@@ -19,52 +19,58 @@ namespace Service
         // ------------------
         // Window - Используется для передачи текущего окна. Использовать this
         // Count - Количество вкладок
-        public static void Create(TablesWindow Window, int Count)
+        public static void Create(TablesWindow Window, string[] TabHeaders)
         {
-
-            Brush ColorToBrush = new SolidColorBrush(new Color()
+            if (TabHeaders.Length > 0)
             {
-                R = 229,
-                G = 229,
-                B = 229,
-                A = 255,
-            });
+                int TabCount = TabHeaders.Length;
 
-            for (int i = 0; i < Count; i++)
-            {
-                string Name = "DataGridOnTab" + i.ToString();
-                DataGrid CurrentDataGrid = new DataGrid()
+                Brush ColorToBrush = new SolidColorBrush(new Color()
                 {
-                    Name = Name,
-                    Margin = new Thickness
+                    R = 229,
+                    G = 229,
+                    B = 229,
+                    A = 255,
+                });
+
+                for (int i = 0; i < TabCount; i++)
+                {
+                    string Name = "DataGridOnTab" + i.ToString();
+                    DataGrid CurrentDataGrid = new DataGrid()
                     {
-                        Left = 10,
-                        Top = 10,
-                        Right = 150,
-                        Bottom = 10,
-                    },
-                    MinWidth = 600,
-                    MinHeight = 350,
-                    IsReadOnly = true,
-                };
-                Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
-                Variables.DataGrids.Add(CurrentDataGrid);
+                        Name = Name,
+                        Margin = new Thickness
+                        {
+                            Left = 10,
+                            Top = 10,
+                            Right = 150,
+                            Bottom = 10,
+                        },
+                        MinWidth = 600,
+                        MinHeight = 350,
+                        IsReadOnly = true,
+                    };
+                    Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
+                    Variables.DataGrids.Add(CurrentDataGrid);
 
-                Grid CurrentGrid = new Grid()
-                {
-                    Background = ColorToBrush,
-                };
+                    Grid CurrentGrid = new Grid()
+                    {
+                        Background = ColorToBrush,
+                    };
 
-                TabItem CurrentTabItem = new TabItem()
-                {
-                    Header = "TabItem" + i.ToString(),
-                    Name = "TabItem" + i.ToString(),
-                };
+                    TabItem CurrentTabItem = new TabItem()
+                    {
+                        IsSelected = i == 0,
+                        Header = TabHeaders.ElementAt(i),
+                        Name = "TabItem" + i.ToString(),
+                    };
 
-                CurrentGrid.Children.Add(CurrentDataGrid);
-                CurrentTabItem.Content = CurrentGrid;
+                    CurrentGrid.Children.Add(CurrentDataGrid);
+                    CurrentTabItem.Content = CurrentGrid;
                 
-                Window.MainTabs.Items.Add(CurrentTabItem);
+                    Window.MainTabs.Items.Add(CurrentTabItem);
+                }
+                
             }
         }
 
