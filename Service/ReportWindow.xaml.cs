@@ -35,7 +35,7 @@ namespace Service
         {
             string sql = "SELECT e_id 'Id', e_surname 'Фамилия', e_name_patronymic 'Имя, отчество', e_age 'Возраст', e_sex 'Пол', e_passport_series_and_number 'Серийный номер паспорта', p_name 'Должность' FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";
 
-            FillTable.ByTableName(sql, DataGridEmpRep);
+            FillTable.ByDG(sql, DataGridEmpRep);
 
         }
 

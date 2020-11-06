@@ -17,5 +17,9 @@ namespace Service
         {
             MessageBox.Show(msg, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        public static void ShowNotice(string msg)
+        {
+            MessageBox.Show(msg, "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

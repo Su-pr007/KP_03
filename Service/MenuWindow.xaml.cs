@@ -49,10 +49,23 @@ namespace Service
             this.Hide();
         }
 
-        private void ToQueries_Click(object sender, RoutedEventArgs e)
+        private void ToQueriesButton_Click(object sender, RoutedEventArgs e)
         {
             ReportWindow_Window.Show();
             this.Hide();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.D1:
+                    ToTablesButton_Click(new object(), new RoutedEventArgs());
+                    return;
+                case Key.D2:
+                    ToQueriesButton_Click(new object(), new RoutedEventArgs());
+                    return;
+            }
         }
     }
 }

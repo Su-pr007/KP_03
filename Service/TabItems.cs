@@ -15,15 +15,26 @@ namespace Service
 {
     class TabItems
     {
+
         // Создать вкладки
         // ------------------
         // Window - Используется для передачи текущего окна. Использовать this
-        // Count - Количество вкладок
+        // TabHeaders - Названия вкладок
         public static void Create(TablesWindow Window, string[] TabHeaders)
         {
-            if (TabHeaders.Length > 0)
+            string[] AllTabHeaders = new string[] { "Сотрудники", "Заказы", "Запчасти", "Должности", "Ремонтируемые модели", "Обслуживаемые магазины", "Виды неисправностей", };
+            string[] AllTabNames = new string[] { "Employees", "Orders", "Parts", "Positions", "Repaired_Models", "Served_Shops", "Fault_Types" };
+
+            if (TabHeaders.Length == 1 && TabHeaders.First() == "*")
             {
-                int TabCount = TabHeaders.Length;
+                TabHeaders = AllTabNames;
+            }
+
+            int TabCount = TabHeaders.Length;
+
+
+            if (TabCount > 0)
+            {
 
                 Brush ColorToBrush = new SolidColorBrush(new Color()
                 {
@@ -35,19 +46,25 @@ namespace Service
 
                 for (int i = 0; i < TabCount; i++)
                 {
-                    string Name = "DataGridOnTab" + i.ToString();
                     DataGrid CurrentDataGrid = new DataGrid()
                     {
-                        Name = Name,
-                        Margin = new Thickness
+                        Name = AllTabNames[i],
+                        /*Margin = new Thickness
                         {
                             Left = 10,
                             Top = 10,
                             Right = 150,
                             Bottom = 10,
+                        },*/
+                        Margin = new Thickness
+                        {
+                            Left = 0,
+                            Top = 0,
+                            Right = 0,
+                            Bottom = 0,
                         },
-                        MinWidth = 600,
-                        MinHeight = 350,
+                        VerticalAlignment = VerticalAlignment.Stretch,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
                         IsReadOnly = true,
                     };
                     Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
@@ -61,17 +78,23 @@ namespace Service
                     TabItem CurrentTabItem = new TabItem()
                     {
                         IsSelected = i == 0,
-                        Header = TabHeaders.ElementAt(i),
-                        Name = "TabItem" + i.ToString(),
+                        Header = AllTabHeaders.ElementAt(i),
+                        Name = TabHeaders.ElementAt(i),
                     };
+
 
                     CurrentGrid.Children.Add(CurrentDataGrid);
                     CurrentTabItem.Content = CurrentGrid;
-                
+
                     Window.MainTabs.Items.Add(CurrentTabItem);
                 }
                 
             }
+        }
+
+        public static void Clear(TablesWindow Window)
+        {
+            Window.MainTabs.Items.Clear();
         }
 
 

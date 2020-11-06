@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Service"
         mc:Ignorable="d"
-        Title="ServiceApp" Height="300" Width="350" Loaded="LoginWindow_Loaded" ResizeMode="NoResize" WindowStyle="ToolWindow" Closed="Window_Closed">
+        Title="ServiceApp" Height="300" Width="350" Loaded="LoginWindow_Loaded" ResizeMode="NoResize" WindowStyle="ToolWindow" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
     <Grid KeyDown="Grid_KeyDown">
         <Grid.RowDefinitions>
             <RowDefinition/>

@@ -31,10 +31,10 @@ namespace Service
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TryOpenTablesWindow(LoginTextBox.Text, PasswordBox.Password);
+            TryOpenMenuWindow(LoginTextBox.Text, PasswordBox.Password);
         }
 
-        public void TryOpenTablesWindow(string login, string password)
+        public void TryOpenMenuWindow(string login, string password)
         {
             bool isConnected = false;
             int ProfileId = 0;
@@ -131,7 +131,7 @@ namespace Service
         {
             if (e.Key == Key.Enter)
             {
-                TryOpenTablesWindow(LoginTextBox.Text, PasswordBox.Password);
+                TryOpenMenuWindow(LoginTextBox.Text, PasswordBox.Password);
             }
         }
 
@@ -150,7 +150,7 @@ namespace Service
 
         private void GuestButton_Click(object sender, RoutedEventArgs e)
         {
-            TryOpenTablesWindow("ServiceOrderer", "12345");
+            TryOpenMenuWindow("ServiceOrderer", "12345");
         }
 
         private void LoginTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -162,6 +162,10 @@ namespace Service
                     break;
                 case Key.F3:
                     GuestButton_Click(new object(), new RoutedEventArgs());
+                    break;
+                // Убрать на релизе!!
+                case Key.F5:
+                    TryOpenMenuWindow("ServiceDBAdmin", "ServiceDBAdminPassword");
                     break;
             }
         }

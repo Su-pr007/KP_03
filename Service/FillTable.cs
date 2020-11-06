@@ -15,7 +15,7 @@ namespace Service
 
         // sql - Текст MySQL запроса
         // DataGridName - Имя заполняемой таблицы
-        public static void ByTableName(string sql, DataGrid DataGridName)
+        public static void ByDG(string sql, DataGrid DataGridName)
         {
 
             DataGridName.ItemsSource = null;
@@ -24,7 +24,6 @@ namespace Service
             string password = Variables.DBpassword;
 
 
-            // Подключение к бд
             MySqlConnection conn = DBUtils.GetDBConnection(login, password);
 
 
@@ -53,7 +52,7 @@ namespace Service
         }
 
 
-        public static void ByXElement(string sql, XElement DataTable)
+        /*public static void ByXElement(string sql, XElement DataTable)
         {
 
             DataTable.Attribute("ItemsSource").Value = null;
@@ -88,6 +87,6 @@ namespace Service
             }
 
 
-        }
+        }*/
     }
 }
