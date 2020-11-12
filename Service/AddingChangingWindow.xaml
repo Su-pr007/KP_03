@@ -5,12 +5,11 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Service.Properties"
 		mc:Ignorable="d"
-		Title="AddingChangingWindow" Height="500" Width="500" Loaded="AddingChangingWindow1_Loaded" WindowStartupLocation="CenterOwner" MinWidth="500" MinHeight="496">
+		Title="AddingChangingWindow" Height="500" Width="500" Loaded="AddingChangingWindow1_Loaded" WindowStartupLocation="CenterOwner" MinWidth="500" MinHeight="496" Icon="ico.ico">
     <Grid>
         <Button x:Name="SaveButton" Content="Всё ок" HorizontalAlignment="Right" Height="25" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="76" Click="SaveButton_Click" Grid.Column="1"/>
         <Button x:Name="CancelButton" Content="Не ок" HorizontalAlignment="Left" Height="25" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="77" Click="CancelButton_Click"/>
-        <DataGrid x:Name="ACDataGrid" Margin="10,10,10,45" Grid.ColumnSpan="2" IsReadOnly="True">
-        </DataGrid>
+        <DataGrid x:Name="ACDataGrid" Margin="10,10,10,45" Grid.ColumnSpan="2" CanUserSortColumns="False" CanUserReorderColumns="False" SelectionUnit="Cell"/>
         <!-- <WrapPanel x:Name="ACFormWrapPanel" ScrollViewer.CanContentScroll="True" Margin="10,10,10,0" VerticalAlignment="Top" Height="219">
 			<Label x:Name="label1test" Height="22" Content="testLabel:" Padding="0" Width="132" HorizontalAlignment="Left"/>
 			<TextBox Height="22" TextWrapping="Wrap" Text="TextBox" Width="132" VerticalAlignment="Top" Margin="0" HorizontalAlignment="Right"/>

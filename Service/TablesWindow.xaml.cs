@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -29,14 +30,15 @@ namespace Service
 	/// </summary>
 	public partial class TablesWindow : Window
 	{
-		int SelectedTabIndex;
+		public static int SelectedTabIndex;
 		object SelectedTabName;
+
 
 
 		public TablesWindow()
 		{
 			InitializeComponent();
-			
+
 		}
 
 		private void Window_Closed(object sender, EventArgs e)
@@ -59,7 +61,7 @@ namespace Service
 					break;
 				// ServiceAccountant - Бухгалтер
 				case 3:
-					TabHeaders = new string[] {  };
+					TabHeaders = new string[] { };
 					break;
 				// ServicePersDepart - Отдел кадров
 				case 4:
@@ -81,7 +83,6 @@ namespace Service
 			TabItems.Clear(this);
 			TabItems.Create(this, TabHeaders);
 
-			/*string sql = "SELECT e_id 'Id', e_surname 'Фамилия', e_name_patronymic 'Имя, отчество', e_age 'Возраст', e_sex 'Пол', e_passport_series_and_number 'Серийный номер паспорта', p_name 'Должность' FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";*/
 
 
 
@@ -93,25 +94,25 @@ namespace Service
 				DataGrid CurrentDataGrid = DataGrids.ElementAt(i);
 				switch (CurrentDataGrid.Name.ToString())
 				{
-					case "Employees":
+					case "employees":
 						FillTable.ByDG("SELECT * FROM employees", CurrentDataGrid);
 						break;
-					case "Orders":
+					case "orders":
 						FillTable.ByDG("SELECT * FROM orders", CurrentDataGrid);
 						break;
-					case "Fault_Types":
+					case "fault_types":
 						FillTable.ByDG("SELECT * FROM fault_types", CurrentDataGrid);
 						break;
-					case "Parts":
+					case "parts":
 						FillTable.ByDG("SELECT * FROM parts", CurrentDataGrid);
 						break;
-					case "Positions":
+					case "positions":
 						FillTable.ByDG("SELECT * FROM positions", CurrentDataGrid);
 						break;
-					case "Repaired_Models":
+					case "repaired_models":
 						FillTable.ByDG("SELECT * FROM repaired_models", CurrentDataGrid);
 						break;
-					case "Served_Shops":
+					case "served_shops":
 						FillTable.ByDG("SELECT * FROM served_shops", CurrentDataGrid);
 						break;
 					case null:
@@ -126,34 +127,24 @@ namespace Service
 		}
 
 
+		// Кнопка возврата в меню
 		private void ReturnButton_Click(object sender, RoutedEventArgs e)
 		{
 			MenuWindow_Window.Show();
 			this.Hide();
 		}
-
+		
+		// Кнопка фильтрации строк
 		private void FilterButton_Click(object sender, RoutedEventArgs e)
 		{
 
-			// POTOM
 
-			/*try
-			{
-				IEnumerable<XElement> asdasd = root.Elements("TabItem");
-
-
-				IEnumerable<XElement> address = from el in root.Elements("TabItem") where (string)el.Attribute("Name") == "TabItem0" select el;
-				foreach (XElement el in address) Console.WriteLine(el);
-				Console.WriteLine("ara ara");
-			}
-			catch
-			{*/
-				Notification.ShowError("Еррор");
-			/*}*/
+			Notification.ShowError("Еррор");
 		}
 
+		// Кнопка поиска по таблице
 		private void SearchButton_Click(object sender, RoutedEventArgs e)
-		{   
+		{
 
 		}
 
@@ -167,40 +158,46 @@ namespace Service
 			SelectedTabName = MainTabs.Items.GetItemAt(SelectedIndex);
 		}
 
+		// Кнопка удаления строки
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
 
 		}
 
+
+
+		// Кнопка изменения строки
 		private void ChangeRowButton_Click(object sender, RoutedEventArgs e)
 		{
 			DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
+
+			System.Collections.IEnumerator DataGridEnumerator = SelectedDataGrid.ItemsSource.GetEnumerator();
+
+
 			IList<DataGridCellInfo> SelectedCells = SelectedDataGrid.SelectedCells;
+			/*DataGridEnumerator.MoveNext.*/
+
+			
+
+
+
 			if (SelectedCells.Count == SelectedDataGrid.Columns.Count)
 			{
-				new AddingChangingWindow(SelectedDataGrid, SelectedCells).Show();
+				new AddingChangingWindow(SelectedDataGrid, SelectedTabIndex).Show();
 			}
 			else
 			{
 				Notification.ShowNotice("Выберите одну строку");
 			}
 		}
-		public string SearchTable()
+		public void SearchTable()
 		{
-			string search = "DataGridOnTab" + SelectedTabIndex.ToString();
-			Console.WriteLine(search);
-			foreach (XElement i in new XElement("TablesWindow.xaml").Elements("DataGrid"))
-			{
-				Console.WriteLine(i.Value);
-				if (i.Attribute("Name").Value == search)
-				{
-					return search;
-				}
-			}
-			return null;
+
+
+
 		}
 
-		// Добавить строку
+		// Кнопка добавления строки
 		private void AddRowButton_Click(object sender, RoutedEventArgs e)
 		{
 			DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);

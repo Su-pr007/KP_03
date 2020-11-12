@@ -23,7 +23,7 @@ namespace Service
         public static void Create(TablesWindow Window, string[] TabHeaders)
         {
             string[] AllTabHeaders = new string[] { "Сотрудники", "Заказы", "Запчасти", "Должности", "Ремонтируемые модели", "Обслуживаемые магазины", "Виды неисправностей", };
-            string[] AllTabNames = new string[] { "Employees", "Orders", "Parts", "Positions", "Repaired_Models", "Served_Shops", "Fault_Types" };
+            string[] AllTabNames = new string[] { "employees", "orders", "parts", "positions", "repaired_models", "served_shops", "fault_types", };
 
             if (TabHeaders.Length == 1 && TabHeaders.First() == "*")
             {
@@ -49,13 +49,6 @@ namespace Service
                     DataGrid CurrentDataGrid = new DataGrid()
                     {
                         Name = AllTabNames[i],
-                        /*Margin = new Thickness
-                        {
-                            Left = 10,
-                            Top = 10,
-                            Right = 150,
-                            Bottom = 10,
-                        },*/
                         Margin = new Thickness
                         {
                             Left = 0,
@@ -87,14 +80,53 @@ namespace Service
                     CurrentTabItem.Content = CurrentGrid;
 
                     Window.MainTabs.Items.Add(CurrentTabItem);
+
+                    string PKey;
+                    switch (AllTabNames[i])
+                    {
+                        case "employees":
+                            PKey = "e_id";
+                            break;
+                        case "orders":
+                            PKey = "o_id";
+                            break;
+                        case "parts":
+                            PKey = "part_id";
+                            break;
+                        case "positions":
+                            PKey = "p_id";
+                            break;
+                        case "repaired_models":
+                            PKey = "rm_id";
+                            break;
+                        case "served_shops":
+                            PKey = "ss_id";
+                            break;
+                        case "fault_types":
+                            PKey = "ft_id";
+                            break;
+                        case "parts_faults":
+                            PKey = "pf_id";
+                            break;
+                        default:
+                            PKey = "error";
+                            break;
+                    }
+
+
+                    Variables.MyDGs.Add(new MyDataGrid());
+
+                    Variables.MyDGs[i].DG = CurrentDataGrid;
+                    Variables.MyDGs[i].PK = PKey;
+
                 }
                 
             }
         }
 
-        public static void Clear(TablesWindow Window)
+        public static void Clear(TablesWindow thisWindow)
         {
-            Window.MainTabs.Items.Clear();
+            thisWindow.MainTabs.Items.Clear();
         }
 
 

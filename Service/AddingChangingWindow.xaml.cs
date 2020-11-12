@@ -23,32 +23,24 @@ namespace Service.Properties
 	public partial class AddingChangingWindow : Window
 	{
 
-		IList<DataGridCellInfo> SelectedCells;
-		public DataGrid SelectedDataGrid;
-		List<string> Columns;
+		public DataGrid SelectedDataGrid = null;
+		int DataGridIndex = 0;
+		List<string> Columns = new List<string>();
+		DataTable ACDataSource = null;
 
 		bool IsChange;
 
-		public void InitVariables()
-		{
-			SelectedCells = null;
-			SelectedDataGrid = null;
-			Columns = new List<string>();
-
-
-		}
-
 		// ChangingWindow
-		public AddingChangingWindow(DataGrid SelectedDataGrid, IList<DataGridCellInfo> SelectedCells)
+		public AddingChangingWindow(DataGrid SelectedDataGrid, int DataGridIndex)
 		{
 			Owner = Variables.TablesWindow_Window;
 			InitializeComponent();
 
-			InitVariables();
 			IsChange = true;
+			Title = "Изменение строки";
 
 			this.SelectedDataGrid = SelectedDataGrid;
-			this.SelectedCells = SelectedCells;
+			this.DataGridIndex = DataGridIndex;
 		}
 
 		// Adding Window	
@@ -57,46 +49,38 @@ namespace Service.Properties
 			Owner = Variables.TablesWindow_Window;
 			InitializeComponent();
 
-			InitVariables();
 			IsChange = false;
+			Title = "Добавление строки";
 
 			this.SelectedDataGrid = SelectedDataGrid;
-		}
-
-		private void SaveButton_Click(object sender, RoutedEventArgs e)
-		{
-			// Убрать
-			Notification.ShowError("ЕРРОРЫ");
-		}
-		private void CancelButton_Click(object sender, RoutedEventArgs e)
-		{
-			Close();
 		}
 
 		private void AddingChangingWindow1_Loaded(object sender, RoutedEventArgs e)
 		{
             for (int i = 0; i < SelectedDataGrid.Columns.Count; i++)
             {
-
 				Columns.Add(SelectedDataGrid.Columns.ElementAt(i).Header.ToString());
             }
 
+			
 
 			List<object> xsw = new List<object>();
 			for (int i = 0; i < Columns.Count; i++)
 			{
-				// ---------------------------------------------
-				// Вставить ссылку на содержимое полей
-				if (IsChange) xsw.Add(SelectedCells.ElementAt(i).ToString());
-				else xsw.Add("");
+				if (IsChange)
+                {
+                    xsw.Add(Variables.FindMyDGByName(SelectedDataGrid.Name).TV.Table.Rows[SelectedDataGrid.SelectedIndex][i]);
+                }
+                else xsw.Add("");
 			}
 
-			ACDataGrid.ItemsSource = CreateDataTable(xsw).DefaultView;
+			ACDataSource = CreateACDataTable(xsw);
+			ACDataGrid.ItemsSource = ACDataSource.DefaultView;
 
 
 		}
 		// Вставить только значения. Названия полей функция берёт из переменной Columns
-		public DataTable CreateDataTable(List<object> Values)
+		public DataTable CreateACDataTable(List<object> Values)
         {
 
 			DataTable NewTable = new DataTable();
@@ -126,5 +110,27 @@ namespace Service.Properties
 			return NewTable;
 
 		}
+
+		private void SaveButton_Click(object sender, RoutedEventArgs e)
+		{
+			List<string> Values = new List<string>();
+
+
+			for(int i = 0; i < ACDataGrid.Items.Count; i++)
+            {
+				Values.Add(ACDataSource.Rows[i].ItemArray[1].ToString());
+
+            }
+
+
+            Console.WriteLine("123");
+			// Убрать
+			Notification.ShowError("ЕРРОРЫ");
+		}
+		private void CancelButton_Click(object sender, RoutedEventArgs e)
+		{
+			Close();
+		}
+
 	}
 }

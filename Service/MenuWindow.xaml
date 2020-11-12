@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Service"
         mc:Ignorable="d"
-        Title="Window1" Height="400" Width="400" Loaded="Window_Loaded" Closed="Window_Closed" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
+        Title="ServiceApp" Height="400" Width="400" Loaded="Window_Loaded" Closed="Window_Closed" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown" Icon="ico.ico">
     <Grid Margin="0,0,0,1">
         <TextBlock x:Name="LoginTextBlock" HorizontalAlignment="Left" Height="59" Text="LoginTextBlock" VerticalAlignment="Top" Width="257" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Padding="0,5,0,0"/>
         <Button x:Name="ToTablesButton" Content="Все таблицы" HorizontalAlignment="Left" Margin="112,106,0,0" VerticalAlignment="Top" Width="150" Height="50" FontSize="14" Click="ToTablesButton_Click"/>

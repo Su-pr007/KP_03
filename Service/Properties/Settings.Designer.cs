@@ -26,8 +26,8 @@ namespace Service.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;user id=root;persistsecurityinfo=True;port=3307;database=service" +
-            "")]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;user id=root;password=root;persistsecurityinfo=True;port=3307;da" +
+            "tabase=service;allowuservariables=True")]
         public string serviceConnectionString {
             get {
                 return ((string)(this["serviceConnectionString"]));

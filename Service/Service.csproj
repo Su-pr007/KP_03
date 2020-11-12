@@ -88,6 +88,14 @@
     <Compile Include="ReportWindow.xaml.cs">
       <DependentUpon>ReportWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="serviceDataSet.cs">
+      <DependentUpon>serviceDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="serviceDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>serviceDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="TabItems.cs" />
     <Compile Include="FillTable.cs" />
     <Compile Include="DBMySQLUtils.cs" />
@@ -150,6 +158,17 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="serviceDataSet.xsc">
+      <DependentUpon>serviceDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="serviceDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>serviceDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="serviceDataSet.xss">
+      <DependentUpon>serviceDataSet.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
