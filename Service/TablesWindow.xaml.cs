@@ -31,9 +31,44 @@ namespace Service
 	public partial class TablesWindow : Window
 	{
 		public static int SelectedTabIndex;
-		object SelectedTabName;
 
+		public void ReloadTables()
+        {
+			for (int i = 0; i < MainTabs.Items.Count; i++)
+			{
+				DataGrid CurrentDataGrid = DataGrids.ElementAt(i);
+				switch (CurrentDataGrid.Name.ToString())
+				{
+					case "employees":
+						FillTable.ByDG("SELECT * FROM employees", CurrentDataGrid);
+						break;
+					case "orders":
+						FillTable.ByDG("SELECT * FROM orders", CurrentDataGrid);
+						break;
+					case "fault_types":
+						FillTable.ByDG("SELECT * FROM fault_types", CurrentDataGrid);
+						break;
+					case "parts":
+						FillTable.ByDG("SELECT * FROM parts", CurrentDataGrid);
+						break;
+					case "positions":
+						FillTable.ByDG("SELECT * FROM positions", CurrentDataGrid);
+						break;
+					case "repaired_models":
+						FillTable.ByDG("SELECT * FROM repaired_models", CurrentDataGrid);
+						break;
+					case "served_shops":
+						FillTable.ByDG("SELECT * FROM served_shops", CurrentDataGrid);
+						break;
+					case null:
+						Console.WriteLine("НУЛЛЫ");
+						break;
+					default:
 
+						continue;
+				}
+			}
+		}
 
 		public TablesWindow()
 		{
@@ -86,43 +121,8 @@ namespace Service
 
 
 
-			// -----------------------------------------------
-			// Здесь выбор того что будет добавлено в таблицы
-
-			for (int i = 0; i < MainTabs.Items.Count; i++)
-			{
-				DataGrid CurrentDataGrid = DataGrids.ElementAt(i);
-				switch (CurrentDataGrid.Name.ToString())
-				{
-					case "employees":
-						FillTable.ByDG("SELECT * FROM employees", CurrentDataGrid);
-						break;
-					case "orders":
-						FillTable.ByDG("SELECT * FROM orders", CurrentDataGrid);
-						break;
-					case "fault_types":
-						FillTable.ByDG("SELECT * FROM fault_types", CurrentDataGrid);
-						break;
-					case "parts":
-						FillTable.ByDG("SELECT * FROM parts", CurrentDataGrid);
-						break;
-					case "positions":
-						FillTable.ByDG("SELECT * FROM positions", CurrentDataGrid);
-						break;
-					case "repaired_models":
-						FillTable.ByDG("SELECT * FROM repaired_models", CurrentDataGrid);
-						break;
-					case "served_shops":
-						FillTable.ByDG("SELECT * FROM served_shops", CurrentDataGrid);
-						break;
-					case null:
-						Console.WriteLine("НУЛЛЫ");
-						break;
-					default:
-
-						break;
-				}
-			}
+			// Заполнение таблиц
+			ReloadTables();
 
 		}
 
@@ -155,7 +155,6 @@ namespace Service
 			int SelectedIndex = MainTabs.SelectedIndex;
 
 			SelectedTabIndex = SelectedIndex;
-			SelectedTabName = MainTabs.Items.GetItemAt(SelectedIndex);
 		}
 
 		// Кнопка удаления строки
@@ -175,11 +174,8 @@ namespace Service
 
 
 			IList<DataGridCellInfo> SelectedCells = SelectedDataGrid.SelectedCells;
-			/*DataGridEnumerator.MoveNext.*/
 
 			
-
-
 
 			if (SelectedCells.Count == SelectedDataGrid.Columns.Count)
 			{
@@ -203,5 +199,10 @@ namespace Service
 			DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
 			new AddingChangingWindow(SelectedDataGrid).Show();
 		}
-	}
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F5) ReloadTables();
+        }
+    }
 }

@@ -33,7 +33,19 @@ namespace Service
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoginTextBlock.Text = DBlogin;
+            if (ProfileId == 3)
+            {
+                ToTablesButton.Visibility = Visibility.Hidden;
+            }
+            if (ProfileId >= 6)
+            {
+                LoginTextBlock.Text = "Клиент";
+            }
+            else
+            {
+                LoginTextBlock.Text = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().ElementAt(ProfileId-1).p_name;
+            }
+            
         }
 
         private void Window_Closed(object sender, EventArgs e)

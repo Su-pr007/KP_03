@@ -22,8 +22,8 @@ namespace Service
             DataGridName.ItemsSource = null;
 
 
-            try
-            {
+            /*try
+            {*/
 
                 DataTableCollection Tables = Variables.ServiceDB.Tables;
 
@@ -76,11 +76,11 @@ namespace Service
                 }
 
 
-            }
+            /*}
             catch (Exception err)
             {
                 Notification.ShowError(err.Message);
-            }
+            }*/
 
 
         }

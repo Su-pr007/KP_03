@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Service"
         xmlns:MySqlClient="clr-namespace:MySql.Data.MySqlClient;assembly=MySql.Data" x:Class="Service.TablesWindow"
         mc:Ignorable="d"
-        Title="ServiceApp" Height="450" Width="800" Loaded="Window_Loaded" MinWidth="800" MinHeight="450" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
+        Title="ServiceApp" Height="450" Width="800" Loaded="Window_Loaded" MinWidth="500" MinHeight="400" Closed="Window_Closed" WindowStartupLocation="CenterScreen" Icon="ico.ico" KeyDown="Window_KeyDown">
     <Grid>
 
         <Grid.ColumnDefinitions>

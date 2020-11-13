@@ -23,8 +23,8 @@ namespace Service
         // DataGrid
         public DataGrid DG;
 
-        // DataTable
-        public DataTable DT;
+        // Названия колонок на английском
+        public List<string> ColumnsEng;
 
         // Primary Key
         public string PK;
@@ -220,15 +220,18 @@ namespace Service
         public static DataTable TranslateColumns(DataTable TableFrom)
         {
             DataTable TableTo = new DataTable();
-            foreach(DataColumn i in TableFrom.Columns)
+            MyDataGrid thisDG = FindMyDGByName(TableFrom.TableName);
+            thisDG.ColumnsEng = new List<string>();
+
+            foreach (DataColumn i in TableFrom.Columns)
             {
                 TableTo.Columns.Add(DictionarySearch(ColumnsDictionary, i.ColumnName));
+                thisDG.ColumnsEng.Add(i.ColumnName);
             }
             foreach(DataRow i in TableFrom.Rows)
             {
                 TableTo.Rows.Add(i.ItemArray);
             }
-
             return TableTo;
         }
         public static string DictionarySearch(Dictionary<string, string> DictionaryFrom, string key)

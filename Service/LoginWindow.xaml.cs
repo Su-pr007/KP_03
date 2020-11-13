@@ -47,13 +47,9 @@ namespace Service
                 conn.Open();
                 Console.WriteLine("Connection successfull!");
                 ProfileId = EmployeePosId(login);
-                if (login == "root" && password == "root")
+                if (ProfileId == 0)
                 {
-                    Notification.ShowError("Не ври, ты не рут. Я знаю", "Ошибка");
-                }
-                else if (ProfileId == 0)
-                {
-                    Notification.ShowError("Неверный логин или пароль.", "Ошибка");
+                    Notification.ShowError("Неверный логин или пароль.");
                 }
                 else
                 {
