@@ -33,9 +33,13 @@ namespace Service
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (ProfileId == 3)
+            if (DBlogin=="ServiceAccountant")
             {
-                ToTablesButton.Visibility = Visibility.Hidden;
+                ToTablesButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ToTablesButton.Visibility = Visibility.Visible;
             }
             if (ProfileId >= 6)
             {

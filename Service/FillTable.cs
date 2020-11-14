@@ -63,10 +63,10 @@ namespace Service
                             default:
                                 continue;
                         }
+                    }
                         var MyDGName = Variables.FindMyDGByName(DataGridName.Name);
                         MyDGName.Name = DataGridName.Name;
                         MyDGName.TV = TableView;
-                    }
                     DataGridName.ItemsSource = TableView;
 
                 }

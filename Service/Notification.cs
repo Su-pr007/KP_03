@@ -21,5 +21,9 @@ namespace Service
         {
             MessageBox.Show(msg, "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        public static MessageBoxResult ShowAsk(string msg)
+        {
+            return MessageBox.Show(msg, "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+        }
     }
 }

@@ -46,10 +46,16 @@ namespace Service
         public static ReportWindow ReportWindow_Window;
         public static LoginWindow LoginWindow_Window;
         public static MenuWindow MenuWindow_Window;
+        public static SearchWindow SearchWindow_Window;
 
         public static List<DataGrid> DataGrids;
         public static List<MyDataGrid> MyDGs;
+        public static string CurrentDataGrid;
         public static DateTime DateTime1 = new DateTime();
+
+
+
+
 
         public static Dictionary<string, string> ColumnsDictionary = new Dictionary<string, string>()
         {};
@@ -68,9 +74,11 @@ namespace Service
             ReportWindow_Window = new ReportWindow();
             LoginWindow_Window = new LoginWindow();
             MenuWindow_Window = new MenuWindow();
+            SearchWindow_Window = new SearchWindow();
 
             DataGrids = new List<DataGrid>();
             MyDGs = new List<MyDataGrid>();
+            CurrentDataGrid = "";
 
             ColumnsDictionary = new Dictionary<string, string> { };
 
@@ -148,11 +156,13 @@ namespace Service
             DBlogin = "";
             DBpassword = "";
             ProfileId = 0;
+            CurrentDataGrid = "";
 
             TablesWindow_Window = null;
             ReportWindow_Window = null;
             LoginWindow_Window = null;
             MenuWindow_Window = null;
+            SearchWindow_Window = null;
 
             DataGrids = null;
             MyDGs = null;

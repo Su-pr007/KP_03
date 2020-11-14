@@ -79,6 +79,8 @@ namespace Service.Properties
 
 			ACDataSource = CreateACDataTable(xsw);
 			ACDataGrid.ItemsSource = ACDataSource.DefaultView;
+			ACDataGrid.CanUserAddRows = false;
+			ACDataGrid.CanUserDeleteRows = false;
 
 
 		}
@@ -123,18 +125,19 @@ namespace Service.Properties
 			List<string> Values = new List<string>();
 			bool IsSaved = false;
 
-				Values.Add((string)EntityId);
+			Values.Add((string)EntityId);
 
-				for (int i = 0; i < ACDataGrid.Items.Count - 1; i++)
-				{
-					Values.Add(ACDataSource.Rows[i].ItemArray[1].ToString());
-				}
+			for (int i = 0; i < ACDataGrid.Items.Count; i++)
+			{
+				Values.Add(ACDataSource.Rows[i].ItemArray[1].ToString());
+			}
 
-				MySqlConnection conn = DBUtils.GetDBConnection(Variables.DBlogin, Variables.DBpassword);
-				try
-				{
-					Console.WriteLine("Openning of connection...");
-					conn.Open();
+			MySqlConnection conn = DBUtils.GetDBConnection(Variables.DBlogin, Variables.DBpassword);
+			try
+			{
+				Console.WriteLine("Openning of connection...");
+				conn.Open();
+				Console.WriteLine("Connection successfull!");
 				string sql;
 
 				if (IsChange)
@@ -174,13 +177,16 @@ namespace Service.Properties
 				command.ExecuteScalar();
 				IsSaved = true;
 			}
-			catch
+			catch(Exception err)
 			{
+                Console.WriteLine("Connection error!");
+                Console.WriteLine(err.Message);
 				Notification.ShowError("Не получен ответ от базы данных");
 			}
 			finally
 			{
 				conn.Close();
+                Console.WriteLine("Connection closed");
                 if (IsSaved)
                 {
 					Close();

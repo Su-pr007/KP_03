@@ -21,7 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
-using static Service. Variables;
+using static Service.Variables;
 
 namespace Service
 {
@@ -31,44 +31,8 @@ namespace Service
 	public partial class TablesWindow : Window
 	{
 		public static int SelectedTabIndex;
+		DataGrid CurrentDataGrid;
 
-		public void ReloadTables()
-        {
-			for (int i = 0; i < MainTabs.Items.Count; i++)
-			{
-				DataGrid CurrentDataGrid = DataGrids.ElementAt(i);
-				switch (CurrentDataGrid.Name.ToString())
-				{
-					case "employees":
-						FillTable.ByDG("SELECT * FROM employees", CurrentDataGrid);
-						break;
-					case "orders":
-						FillTable.ByDG("SELECT * FROM orders", CurrentDataGrid);
-						break;
-					case "fault_types":
-						FillTable.ByDG("SELECT * FROM fault_types", CurrentDataGrid);
-						break;
-					case "parts":
-						FillTable.ByDG("SELECT * FROM parts", CurrentDataGrid);
-						break;
-					case "positions":
-						FillTable.ByDG("SELECT * FROM positions", CurrentDataGrid);
-						break;
-					case "repaired_models":
-						FillTable.ByDG("SELECT * FROM repaired_models", CurrentDataGrid);
-						break;
-					case "served_shops":
-						FillTable.ByDG("SELECT * FROM served_shops", CurrentDataGrid);
-						break;
-					case null:
-						Console.WriteLine("НУЛЛЫ");
-						break;
-					default:
-
-						continue;
-				}
-			}
-		}
 
 		public TablesWindow()
 		{
@@ -126,12 +90,49 @@ namespace Service
 
 		}
 
+		public void ReloadTables()
+		{
+			for (int i = 0; i < MainTabs.Items.Count; i++)
+			{
+				CurrentDataGrid = DataGrids.ElementAt(i);
+				switch (CurrentDataGrid.Name.ToString())
+				{
+					case "employees":
+						FillTable.ByDG("SELECT * FROM employees", CurrentDataGrid);
+						break;
+					case "orders":
+						FillTable.ByDG("SELECT * FROM orders", CurrentDataGrid);
+						break;
+					case "fault_types":
+						FillTable.ByDG("SELECT * FROM fault_types", CurrentDataGrid);
+						break;
+					case "parts":
+						FillTable.ByDG("SELECT * FROM parts", CurrentDataGrid);
+						break;
+					case "positions":
+						FillTable.ByDG("SELECT * FROM positions", CurrentDataGrid);
+						break;
+					case "repaired_models":
+						FillTable.ByDG("SELECT * FROM repaired_models", CurrentDataGrid);
+						break;
+					case "served_shops":
+						FillTable.ByDG("SELECT * FROM served_shops", CurrentDataGrid);
+						break;
+					case null:
+						Console.WriteLine("НУЛЛЫ");
+						break;
+					default:
+
+						continue;
+				}
+			}
+		}
 
 		// Кнопка возврата в меню
 		private void ReturnButton_Click(object sender, RoutedEventArgs e)
 		{
 			MenuWindow_Window.Show();
-			this.Hide();
+			Hide();
 		}
 		
 		// Кнопка фильтрации строк
@@ -145,28 +146,71 @@ namespace Service
 		// Кнопка поиска по таблице
 		private void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			SearchWindow_Window.Show();
+			
 		}
 
 
 		private void TabControlChangedSelection(object sender, SelectionChangedEventArgs e)
 		{
 			// Индекс выбранной вкладки
-			int SelectedIndex = MainTabs.SelectedIndex;
-
-			SelectedTabIndex = SelectedIndex;
+			SelectedTabIndex = MainTabs.SelectedIndex;
+			Variables.CurrentDataGrid = DataGrids[SelectedTabIndex].Name;
 		}
 
 		// Кнопка удаления строки
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
+			string res = "NO";
+
+			int ItemsCount = DataGrids.ElementAt(SelectedTabIndex).SelectedItems.Count;
+
+			if (ItemsCount == 1)
+            {
+				res = Notification.ShowAsk("Вы уверены что хотите удалить эту запись?").ToString();
+            }
+			else if(ItemsCount > 1)
+			{
+				res = Notification.ShowAsk("Вы уверены что хотите удалить эти записи?").ToString();
+			}
+            else
+            {
+				Notification.ShowNotice("Выберите удаляемые строки");
+			}
+			if (res.ToString().ToLower() == "yes")
+			{
+
+
+
+				Console.WriteLine("YES");
+				MyDataGrid thisDG = FindMyDGByName(DataGrids[SelectedTabIndex].Name);
+
+				DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
+
+				string sql = "DELETE FROM " + DataGrids.ElementAt(SelectedTabIndex).Name + " WHERE ";
+				
+				
+				for(int i = 0; i < ItemsCount; i++)
+                {
+					sql += MyDGs[SelectedTabIndex].PK + " = '" + thisDG.TV.Table.Rows[(SelectedDataGrid.SelectedIndex) + i][0];
+                    sql += i == ItemsCount - 1? "';":"' or ";
+				}
+
+
+
+				ExecuteSqlQueryNoResults(sql);
+				
+			}
+
+
+
 
 		}
 
 
 
 		// Кнопка изменения строки
-		private void ChangeRowButton_Click(object sender, RoutedEventArgs e)
+		public void ChangeRowButton_Click(object sender, RoutedEventArgs e)
 		{
 			DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
 
@@ -186,19 +230,52 @@ namespace Service
 				Notification.ShowNotice("Выберите одну строку");
 			}
 		}
-		public void SearchTable()
+/*		public void SearchTable()
 		{
 
 
 
-		}
+		}*/
 
 		// Кнопка добавления строки
 		private void AddRowButton_Click(object sender, RoutedEventArgs e)
 		{
-			DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
-			new AddingChangingWindow(SelectedDataGrid).Show();
+			new AddingChangingWindow(DataGrids.ElementAt(SelectedTabIndex)).Show();
 		}
+
+
+
+		public void ExecuteSqlQueryNoResults(string sql)
+        {
+
+			conn = DBUtils.GetDBConnection(DBlogin, DBpassword);
+			MySqlCommand command = new MySqlCommand(sql, conn);
+			try
+			{
+				Console.WriteLine("Openning connection...");
+				conn.Open();
+				Console.WriteLine("Connection successful!");
+
+
+				Console.WriteLine("Trying to execute sql query...");
+				command.ExecuteNonQuery();
+                Console.WriteLine("Successfully!");
+
+				ReloadTables();
+			}
+			catch (Exception err)
+			{
+				Console.WriteLine(err.Message);
+				Notification.ShowError("Ошибка при выполнении команды в базе данных");
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+
+
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {

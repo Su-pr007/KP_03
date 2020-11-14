@@ -63,6 +63,7 @@ namespace Service
                     Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
                     Variables.DataGrids.Add(CurrentDataGrid);
 
+
                     Grid CurrentGrid = new Grid()
                     {
                         Background = ColorToBrush,
@@ -116,12 +117,19 @@ namespace Service
 
                     Variables.MyDGs.Add(new MyDataGrid());
 
+                    CurrentDataGrid.MouseDoubleClick += CurrentDataGrid_MouseDoubleClick;
+
                     Variables.MyDGs[i].DG = CurrentDataGrid;
                     Variables.MyDGs[i].PK = PKey;
 
                 }
                 
             }
+        }
+
+        private static void CurrentDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Variables.TablesWindow_Window.ChangeRowButton_Click(new object(), new RoutedEventArgs());
         }
 
         public static void Clear(TablesWindow thisWindow)

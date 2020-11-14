@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,11 +31,21 @@ namespace Service
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+
             TryOpenMenuWindow(LoginTextBox.Text, PasswordBox.Password);
         }
 
         public void TryOpenMenuWindow(string login, string password)
         {
+
+            Regex regex = new Regex(@"^Service");
+            if (!regex.IsMatch(login))
+            {
+                login = "Service" + login;
+                password = "Service" + password;
+            }
+
             bool isConnected = false;
             int ProfileId = 0;
             // Подключение к бд
@@ -79,7 +90,7 @@ namespace Service
             finally
             {
                 conn.Close();
-                conn.Dispose();
+                Console.WriteLine("Connection closed");
 
                 Variables.DBlogin = login;
                 Variables.DBpassword = password;
@@ -132,6 +143,7 @@ namespace Service
 
         private void LoginWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            Activate();
             LoginTextBox.Focus();
         }
 
