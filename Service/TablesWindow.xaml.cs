@@ -224,7 +224,7 @@ namespace Service
 
 			if (SelectedCells.Count == SelectedDataGrid.Columns.Count)
 			{
-				new DataInteractionWindow(SelectedDataGrid, true).Show();
+				new DataManipulationsWindow(SelectedDataGrid, true).Show();
 			}
 			else
 			{
@@ -236,7 +236,7 @@ namespace Service
 		// Кнопка добавления строки
 		private void AddRowButton_Click(object sender, RoutedEventArgs e)
 		{
-			new DataInteractionWindow(DataGrids.ElementAt(SelectedTabIndex), false).ShowDialog();
+			new DataManipulationsWindow(DataGrids.ElementAt(SelectedTabIndex), false).ShowDialog();
 		}
 
 

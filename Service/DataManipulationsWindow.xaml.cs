@@ -20,20 +20,20 @@ using System.Windows.Shapes;
 namespace Service.Properties
 {
 	/// <summary>
-	/// Логика взаимодействия для DataInteractionWindow.xaml
+	/// Логика взаимодействия для DataManipulationsWindow.xaml
 	/// </summary>
-	public partial class DataInteractionWindow : Window
+	public partial class DataManipulationsWindow : Window
 	{
 
 		public DataGrid SelectedDataGrid = null;
 		List<string> Columns = new List<string>();
-		DataTable DIDataSource = null;
+		DataTable DMDataSource = null;
 		object EntityId = null;
 
 		bool IsChange;
 
 		// Добавление / изменение данных
-		public DataInteractionWindow(DataGrid SelectedDataGrid, bool IsChange)
+		public DataManipulationsWindow(DataGrid SelectedDataGrid, bool IsChange)
 		{
 			Owner = Variables.TablesWindow_Window;
 			InitializeComponent();
@@ -52,7 +52,7 @@ namespace Service.Properties
 			this.SelectedDataGrid = SelectedDataGrid;
 		}
 
-		private void DataInteractionWindow1_Loaded(object sender, RoutedEventArgs e)
+		private void DataManipulationsWindow1_Loaded(object sender, RoutedEventArgs e)
 		{
             for (int i = 0; i < SelectedDataGrid.Columns.Count; i++)
             {
@@ -71,13 +71,13 @@ namespace Service.Properties
                 else xsw.Add("");
 			}
 
-			DIDataSource = CreateDIDataTable(xsw);
-			DIDataGrid.ItemsSource = DIDataSource.DefaultView;
-			DIDataGrid.CanUserAddRows = false;
-			DIDataGrid.CanUserDeleteRows = false;
+			DMDataSource = CreateDMDataTable(xsw);
+			DMDataGrid.ItemsSource = DMDataSource.DefaultView;
+			DMDataGrid.CanUserAddRows = false;
+			DMDataGrid.CanUserDeleteRows = false;
 		}
 		// Вставить только значения. Названия полей функция берёт из переменной Columns
-		public DataTable CreateDIDataTable(List<object> Values)
+		public DataTable CreateDMDataTable(List<object> Values)
         {
 
 			DataTable NewTable = new DataTable();
@@ -119,9 +119,9 @@ namespace Service.Properties
 
 			Values.Add((string)EntityId);
 
-			for (int i = 0; i < DIDataGrid.Items.Count; i++)
+			for (int i = 0; i < DMDataGrid.Items.Count; i++)
 			{
-				Values.Add(DIDataSource.Rows[i].ItemArray[1].ToString());
+				Values.Add(DMDataSource.Rows[i].ItemArray[1].ToString());
 			}
 
 			MySqlConnection conn = DBUtils.GetDBConnection(Variables.DBlogin, Variables.DBpassword);
@@ -209,7 +209,7 @@ namespace Service.Properties
 			Close();
 		}
 
-        private void DataInteractionWindow1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void DataManipulationsWindow1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 			Variables.TablesWindow_Window.ReloadTables();
 		}

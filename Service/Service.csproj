@@ -82,8 +82,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataInteractionWindow.xaml.cs">
-      <DependentUpon>DataInteractionWindow.xaml</DependentUpon>
+    <Compile Include="DataManipulationsWindow.xaml.cs">
+      <DependentUpon>DataManipulationsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="FilterWindow.xaml.cs">
       <DependentUpon>FilterWindow.xaml</DependentUpon>
@@ -130,7 +130,7 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="DataInteractionWindow.xaml">
+    <Page Include="DataManipulationsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

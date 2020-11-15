@@ -41,7 +41,7 @@ C:\Users\Максим\source\repos\Service\Service\obj\Debug\ReportWindow.g.cs
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\ReportWindow.baml
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\SearchWindow.g.cs
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\SearchWindow.baml
-C:\Users\Максим\source\repos\Service\Service\obj\Debug\DataInteractionWindow.g.cs
-C:\Users\Максим\source\repos\Service\Service\obj\Debug\DataInteractionWindow.baml
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\FilterWindow.g.cs
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\FilterWindow.baml
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\DataManipulationsWindow.g.cs
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\DataManipulationsWindow.baml
