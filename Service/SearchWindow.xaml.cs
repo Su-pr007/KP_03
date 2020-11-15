@@ -23,36 +23,34 @@ namespace Service
     {
 
         DataTable SelectedDataGrid;
-
+        DataTable arr;
 
         public SearchWindow()
         {
             InitializeComponent();
+            arr = new DataTable();
 
         }
 
 
         private void SearchWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Owner = Variables.TablesWindow_Window;
+
             SearchTextBox.Focus();
             SelectedDataGrid = Variables.FindMyDGByName(Variables.CurrentDataGrid).TV.Table;
+
+
+            for (int i = 0; i < SelectedDataGrid.Columns.Count; i++) arr.Columns.Add(new DataColumn() { ColumnName = SelectedDataGrid.Columns[i].ColumnName });
+
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DataTable arr = new DataTable();
+            arr.Rows.Clear();
             string str = SearchTextBox.Text;
-            Regex regex = new Regex(@"\w*?" + str + @"\w*?");
+            Regex regex = new Regex(@"" + str);
 
-
-            for (int i = 0; i < SelectedDataGrid.Columns.Count; i++)
-            {
-                DataColumn Column = new DataColumn();
-                Column.ColumnName = SelectedDataGrid.Columns[i].ColumnName;
-
-                arr.Columns.Add(Column);
-            }
 
 
 
@@ -63,17 +61,26 @@ namespace Service
                     string CurCell = SelectedDataGrid.Rows[i][j].ToString();
                     if (regex.IsMatch(CurCell))
                     {
-                        DataRow thisRow = new DataRow().ItemArray = SelectedDataGrid.Rows[i].ItemArray;
+                        DataRow thisRow = arr.NewRow();
+                        thisRow.ItemArray = SelectedDataGrid.Rows[i].ItemArray;
+
+
                         arr.Rows.Add(thisRow);
-                        // СЮДАА
+
+                        break;
                     }
                 }
             }
 
             Variables.FindMyDGByName(Variables.CurrentDataGrid).DG.ItemsSource = arr.DefaultView;
 
+            SearchTextBox.Clear();
+            Hide();
+        }
 
-            Close();
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) Button_Click(new object(), new RoutedEventArgs());
         }
     }
 }

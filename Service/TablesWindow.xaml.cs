@@ -31,7 +31,7 @@ namespace Service
 	public partial class TablesWindow : Window
 	{
 		public static int SelectedTabIndex;
-		DataGrid CurrentDataGrid;
+		public static DataGrid SelectedDataGrid;
 
 
 		public TablesWindow()
@@ -87,14 +87,14 @@ namespace Service
 
 			// Заполнение таблиц
 			ReloadTables();
-
+			DataGrids.ElementAt(0);
 		}
 
 		public void ReloadTables()
 		{
 			for (int i = 0; i < MainTabs.Items.Count; i++)
 			{
-				CurrentDataGrid = DataGrids.ElementAt(i);
+				DataGrid CurrentDataGrid = DataGrids.ElementAt(i);
 				switch (CurrentDataGrid.Name.ToString())
 				{
 					case "employees":
@@ -138,15 +138,16 @@ namespace Service
 		// Кнопка фильтрации строк
 		private void FilterButton_Click(object sender, RoutedEventArgs e)
 		{
+			new FilterWindow(DataGrids.ElementAt(SelectedTabIndex)).ShowDialog();
 
 
-			Notification.ShowError("Еррор");
+
 		}
 
 		// Кнопка поиска по таблице
 		private void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-			SearchWindow_Window.Show();
+			new SearchWindow().ShowDialog();
 			
 		}
 
@@ -155,7 +156,7 @@ namespace Service
 		{
 			// Индекс выбранной вкладки
 			SelectedTabIndex = MainTabs.SelectedIndex;
-			Variables.CurrentDataGrid = DataGrids[SelectedTabIndex].Name;
+			CurrentDataGrid = DataGrids[SelectedTabIndex].Name;
 		}
 
 		// Кнопка удаления строки
@@ -212,7 +213,7 @@ namespace Service
 		// Кнопка изменения строки
 		public void ChangeRowButton_Click(object sender, RoutedEventArgs e)
 		{
-			DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
+			SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
 
 			System.Collections.IEnumerator DataGridEnumerator = SelectedDataGrid.ItemsSource.GetEnumerator();
 
@@ -223,24 +224,19 @@ namespace Service
 
 			if (SelectedCells.Count == SelectedDataGrid.Columns.Count)
 			{
-				new AddingChangingWindow(SelectedDataGrid, SelectedTabIndex).Show();
+				new DataInteractionWindow(SelectedDataGrid, true).Show();
 			}
 			else
 			{
 				Notification.ShowNotice("Выберите одну строку");
 			}
 		}
-/*		public void SearchTable()
-		{
 
-
-
-		}*/
 
 		// Кнопка добавления строки
 		private void AddRowButton_Click(object sender, RoutedEventArgs e)
 		{
-			new AddingChangingWindow(DataGrids.ElementAt(SelectedTabIndex)).Show();
+			new DataInteractionWindow(DataGrids.ElementAt(SelectedTabIndex), false).ShowDialog();
 		}
 
 

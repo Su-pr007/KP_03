@@ -54,7 +54,7 @@ namespace Service
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+            ApplicationStop();
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)

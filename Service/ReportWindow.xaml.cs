@@ -28,7 +28,7 @@ namespace Service
 
         private void ReportWindow_Closed(object sender, EventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+            ApplicationStop();
         }
 
         private void ReportWindow_Loaded(object sender, RoutedEventArgs e)

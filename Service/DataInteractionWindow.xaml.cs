@@ -20,45 +20,39 @@ using System.Windows.Shapes;
 namespace Service.Properties
 {
 	/// <summary>
-	/// Логика взаимодействия для AddingChangingWindow.xaml
+	/// Логика взаимодействия для DataInteractionWindow.xaml
 	/// </summary>
-	public partial class AddingChangingWindow : Window
+	public partial class DataInteractionWindow : Window
 	{
 
 		public DataGrid SelectedDataGrid = null;
-		int DataGridIndex = 0;
 		List<string> Columns = new List<string>();
-		DataTable ACDataSource = null;
+		DataTable DIDataSource = null;
 		object EntityId = null;
 
 		bool IsChange;
 
-		// ChangingWindow
-		public AddingChangingWindow(DataGrid SelectedDataGrid, int DataGridIndex)
+		// Добавление / изменение данных
+		public DataInteractionWindow(DataGrid SelectedDataGrid, bool IsChange)
 		{
 			Owner = Variables.TablesWindow_Window;
 			InitializeComponent();
 
-			IsChange = true;
-			Title = "Изменение строки";
-
-			this.SelectedDataGrid = SelectedDataGrid;
-			this.DataGridIndex = DataGridIndex;
-		}
-
-		// Adding Window	
-		public AddingChangingWindow(DataGrid SelectedDataGrid)
-		{
-			Owner = Variables.TablesWindow_Window;
-			InitializeComponent();
-
-			IsChange = false;
-			Title = "Добавление строки";
+            if (IsChange)
+            {
+				this.IsChange = IsChange;
+				Title = "Изменение строки";
+            }
+            else
+            {
+				this.IsChange = false;
+				Title = "Добавление строки";
+			}
 
 			this.SelectedDataGrid = SelectedDataGrid;
 		}
 
-		private void AddingChangingWindow1_Loaded(object sender, RoutedEventArgs e)
+		private void DataInteractionWindow1_Loaded(object sender, RoutedEventArgs e)
 		{
             for (int i = 0; i < SelectedDataGrid.Columns.Count; i++)
             {
@@ -77,15 +71,13 @@ namespace Service.Properties
                 else xsw.Add("");
 			}
 
-			ACDataSource = CreateACDataTable(xsw);
-			ACDataGrid.ItemsSource = ACDataSource.DefaultView;
-			ACDataGrid.CanUserAddRows = false;
-			ACDataGrid.CanUserDeleteRows = false;
-
-
+			DIDataSource = CreateDIDataTable(xsw);
+			DIDataGrid.ItemsSource = DIDataSource.DefaultView;
+			DIDataGrid.CanUserAddRows = false;
+			DIDataGrid.CanUserDeleteRows = false;
 		}
 		// Вставить только значения. Названия полей функция берёт из переменной Columns
-		public DataTable CreateACDataTable(List<object> Values)
+		public DataTable CreateDIDataTable(List<object> Values)
         {
 
 			DataTable NewTable = new DataTable();
@@ -127,9 +119,9 @@ namespace Service.Properties
 
 			Values.Add((string)EntityId);
 
-			for (int i = 0; i < ACDataGrid.Items.Count; i++)
+			for (int i = 0; i < DIDataGrid.Items.Count; i++)
 			{
-				Values.Add(ACDataSource.Rows[i].ItemArray[1].ToString());
+				Values.Add(DIDataSource.Rows[i].ItemArray[1].ToString());
 			}
 
 			MySqlConnection conn = DBUtils.GetDBConnection(Variables.DBlogin, Variables.DBpassword);
@@ -217,7 +209,7 @@ namespace Service.Properties
 			Close();
 		}
 
-        private void AddingChangingWindow1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void DataInteractionWindow1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 			Variables.TablesWindow_Window.ReloadTables();
 		}

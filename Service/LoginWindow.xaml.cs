@@ -151,7 +151,7 @@ namespace Service
         {
             if (e.Key == Key.Escape)
             {
-                Process.GetCurrentProcess().Kill();
+                Variables.ApplicationStop();
             }
         }
 
