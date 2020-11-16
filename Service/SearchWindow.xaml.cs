@@ -82,5 +82,11 @@ namespace Service
         {
             if (e.Key == Key.Enter) Button_Click(new object(), new RoutedEventArgs());
         }
+
+        private void SearchWindow1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.Key == Key.Escape) Hide();
+        }
     }
 }

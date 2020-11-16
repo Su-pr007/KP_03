@@ -15,6 +15,7 @@ namespace Service
 
     class MyDataGrid
     {
+
         public string Name;
 
         // TableView
@@ -47,6 +48,8 @@ namespace Service
         public static LoginWindow LoginWindow_Window;
         public static MenuWindow MenuWindow_Window;
 
+        public static bool AndFilterChecked;
+
         public static List<DataGrid> DataGrids;
         public static List<MyDataGrid> MyDGs;
         public static string CurrentDataGridName;
@@ -77,6 +80,8 @@ namespace Service
             DataGrids = new List<DataGrid>();
             MyDGs = new List<MyDataGrid>();
             CurrentDataGridName = "";
+
+            AndFilterChecked = false;
 
             ColumnsDictionary = new Dictionary<string, string> { };
 
@@ -184,44 +189,53 @@ namespace Service
 
 
             DataView TableData;
-            
-            switch (TableName)
+            try
             {
-                case "employees":
-                    TableData = new serviceDataSetTableAdapters.employeesTableAdapter().GetData().DefaultView;
-                    break;
-                case "fault_types":
-                    TableData = new serviceDataSetTableAdapters.fault_typesTableAdapter().GetData().DefaultView;
-                    break;
-                case "orders":
-                    TableData = new serviceDataSetTableAdapters.ordersTableAdapter().GetData().DefaultView;
-                    break;
-                case "parts":
-                    TableData = new serviceDataSetTableAdapters.partsTableAdapter().GetData().DefaultView;
-                    break;
-                case "parts_faults":
-                    TableData = new serviceDataSetTableAdapters.parts_faultsTableAdapter().GetData().DefaultView;
-                    break;
-                case "positions":
-                    TableData = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().DefaultView;
-                    break;
-                case "repaired_models":
-                    TableData = new serviceDataSetTableAdapters.repaired_modelsTableAdapter().GetData().DefaultView;
-                    break;
-                case "served_shops":
-                    TableData = new serviceDataSetTableAdapters.served_shopsTableAdapter().GetData().DefaultView;
-                    break;
-                default:
-                    TableData = new serviceDataSetTableAdapters.employeesTableAdapter().GetData().DefaultView;
-                    break;
+                switch (TableName)
+                {
+                    case "employees":
+                        TableData = new serviceDataSetTableAdapters.employeesTableAdapter().GetData().DefaultView;
+                        break;
+                    case "fault_types":
+                        TableData = new serviceDataSetTableAdapters.fault_typesTableAdapter().GetData().DefaultView;
+                        break;
+                    case "orders":
+                        TableData = new serviceDataSetTableAdapters.ordersTableAdapter().GetData().DefaultView;
+                        break;
+                    case "parts":
+                        TableData = new serviceDataSetTableAdapters.partsTableAdapter().GetData().DefaultView;
+                        break;
+                    case "parts_faults":
+                        TableData = new serviceDataSetTableAdapters.parts_faultsTableAdapter().GetData().DefaultView;
+                        break;
+                    case "positions":
+                        TableData = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().DefaultView;
+                        break;
+                    case "repaired_models":
+                        TableData = new serviceDataSetTableAdapters.repaired_modelsTableAdapter().GetData().DefaultView;
+                        break;
+                    case "served_shops":
+                        TableData = new serviceDataSetTableAdapters.served_shopsTableAdapter().GetData().DefaultView;
+                        break;
+                    default:
+                        TableData = new serviceDataSetTableAdapters.employeesTableAdapter().GetData().DefaultView;
+                        break;
+                }
+
+                DataTable RusColumnsTable = new DataTable();
+                RusColumnsTable = TranslateColumns(TableData.Table);
+
+
+
+                return RusColumnsTable.DefaultView;
             }
+            catch(Exception err)
+            {
+                Console.WriteLine(err.Message);
+                Notification.ShowError("Не удалось получить данные из базы");
+            }
+            return null;
 
-            DataTable RusColumnsTable = new DataTable();
-            RusColumnsTable = TranslateColumns(TableData.Table);
-
-
-
-            return RusColumnsTable.DefaultView;
         }
 
         public static DataTable TranslateColumns(DataTable TableFrom)

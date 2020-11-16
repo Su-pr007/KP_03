@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Service"
         mc:Ignorable="d"
-        Title="Поиск" Height="200" Width="300" MinWidth="300" MinHeight="200" WindowStartupLocation="CenterOwner" Loaded="SearchWindow_Loaded" MaxWidth="300" MaxHeight="200" ResizeMode="NoResize" WindowStyle="ToolWindow">
+        Title="Поиск" Height="200" Width="300" MinWidth="300" MinHeight="200" WindowStartupLocation="CenterOwner" Loaded="SearchWindow_Loaded" MaxWidth="300" MaxHeight="200" ResizeMode="NoResize" WindowStyle="ToolWindow" KeyDown="SearchWindow1_KeyDown">
     <Grid>
         <TextBox x:Name="SearchTextBox" HorizontalAlignment="Center" Height="23" Margin="0" TextWrapping="Wrap"   VerticalAlignment="Center" Width="120" KeyDown="SearchTextBox_KeyDown"/>
         <Button Content="Поиск" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Center" Width="75" Click="Button_Click"/>
