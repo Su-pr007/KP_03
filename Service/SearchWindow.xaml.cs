@@ -37,7 +37,7 @@ namespace Service
         {
 
             SearchTextBox.Focus();
-            SelectedDataGrid = Variables.FindMyDGByName(Variables.CurrentDataGrid).TV.Table;
+            SelectedDataGrid = Variables.FindMyDGByName(Variables.CurrentDataGridName).TV.Table;
 
 
             for (int i = 0; i < SelectedDataGrid.Columns.Count; i++) arr.Columns.Add(new DataColumn() { ColumnName = SelectedDataGrid.Columns[i].ColumnName });
@@ -72,7 +72,7 @@ namespace Service
                 }
             }
 
-            Variables.FindMyDGByName(Variables.CurrentDataGrid).DG.ItemsSource = arr.DefaultView;
+            Variables.FindMyDGByName(Variables.CurrentDataGridName).DG.ItemsSource = arr.DefaultView;
 
             SearchTextBox.Clear();
             Hide();

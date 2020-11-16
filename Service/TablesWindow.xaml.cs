@@ -156,7 +156,7 @@ namespace Service
 		{
 			// Индекс выбранной вкладки
 			SelectedTabIndex = MainTabs.SelectedIndex;
-			CurrentDataGrid = DataGrids[SelectedTabIndex].Name;
+			CurrentDataGridName = DataGrids[SelectedTabIndex].Name;
 		}
 
 		// Кнопка удаления строки

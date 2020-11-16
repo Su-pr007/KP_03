@@ -49,7 +49,7 @@ namespace Service
 
         public static List<DataGrid> DataGrids;
         public static List<MyDataGrid> MyDGs;
-        public static string CurrentDataGrid;
+        public static string CurrentDataGridName;
         public static DateTime DateTime1 = new DateTime();
 
 
@@ -76,7 +76,7 @@ namespace Service
 
             DataGrids = new List<DataGrid>();
             MyDGs = new List<MyDataGrid>();
-            CurrentDataGrid = "";
+            CurrentDataGridName = "";
 
             ColumnsDictionary = new Dictionary<string, string> { };
 
@@ -154,7 +154,7 @@ namespace Service
             DBlogin = "";
             DBpassword = "";
             ProfileId = 0;
-            CurrentDataGrid = "";
+            CurrentDataGridName = "";
 
             TablesWindow_Window = null;
             ReportWindow_Window = null;
