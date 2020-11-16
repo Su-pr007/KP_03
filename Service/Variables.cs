@@ -55,6 +55,13 @@ namespace Service
         public static string CurrentDataGridName;
         public static DateTime DateTime1 = new DateTime();
 
+        // Запросы
+        /*public static string EmployeesReport = "SELECT e_id 'Id', e_surname 'Фамилия', e_name_patronymic 'Имя, отчество', e_age 'Возраст', e_sex 'Пол', e_passport_series_and_number 'Серийный номер паспорта', p_name 'Должность' FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";*/
+        public static string EmployeesReport = "SELECT e_id, e_surname, e_name_patronymic, e_age, e_sex, e_passport_series_and_number, p_name FROM employees INNER JOIN positions ON employees.e_p_id = positions.p_id";
+
+        public static string FaultsList = "SELECT fault_types.ft_description, fault_types.ft_symptomes, fault_types.ft_repair_methods, fault_types.ft_price, parts.part_name, repaired_models.rm_name, repaired_models.rm_type FROM fault_types INNER JOIN repaired_models ON fault_types.ft_model_id = repaired_models.rm_id INNER JOIN parts_faults ON fault_types.ft_id = parts_faults.pf_fault_id INNER JOIN parts ON parts_faults.pf_part_id = parts.part_id";
+
+        public static string OrdersList = "SELECT orders.o_name, orders.o_order_date, orders.o_pick_date, orders.o_serial_number, orders.o_guarantee, orders.o_guarantee_period, orders.o_price, fault_types.ft_description, served_shops.ss_name FROM orders INNER JOIN served_shops ON served_shops.ss_id = orders.o_ss_id INNER JOIN fault_types ON fault_types.ft_id = orders.o_ft_id";
 
 
 
