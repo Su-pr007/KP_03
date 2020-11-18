@@ -1,11 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,8 +36,16 @@ namespace Service
 
     class Variables
     {
+        public static DBConnectionSettings DBConnSettings = new DBConnectionSettings();
+        public static ConnectionStringSettings ConnSett;
+
+
         public static string DBlogin;
         public static string DBpassword;
+
+        public static string DBConnIP = DBConnSettings.DefaultIP;
+        public static string DBConnName = DBConnSettings.DefaultName;
+        public static string DBConnPort = DBConnSettings.DefaultPort;
 
         public static serviceDataSet ServiceDB = new serviceDataSet();
 
@@ -74,9 +84,28 @@ namespace Service
         
 
 
+        public static void InitConn()
+        {
+            ConnSett = new ConnectionStringSettings();
+
+            DBConnIP = DBConnSettings.IP;
+            DBConnPort = DBConnSettings.Port;
+            DBConnName = DBConnSettings.Name;
+
+
+            ConnSett.ConnectionString = $"server={DBConnIP};user id=root;password=root;persistsecurityinfo=True;port={DBConnPort};database={DBConnName};allowuservariables=True";
+
+        }
+
+
+
         public static void InitVariables()
         {
             conn = DBUtils.GetDBConnection(DBlogin, DBpassword);
+
+
+
+
 
 
             TablesWindow_Window = new TablesWindow();
@@ -163,6 +192,13 @@ namespace Service
 
         public static void ClearVariables()
         {
+
+            DBConnIP = DBConnSettings.DefaultIP;
+            DBConnName = DBConnSettings.DefaultName;
+            DBConnPort = DBConnSettings.DefaultPort;
+
+
+
             DBlogin = "";
             DBpassword = "";
             ProfileId = 0;

@@ -11,9 +11,9 @@ namespace Service
     {
         public static MySqlConnection GetDBConnection(string login, string password)
         {
-            string host = "127.0.0.1";
-            int port = 3307;
-            string database = "service";
+            string host = Variables.DBConnSettings.IP;
+            int port = Convert.ToInt32(Variables.DBConnSettings.Port);
+            string database = Variables.DBConnSettings.Name;
 
             return DBMySQLUtils.GetDBConnection(host, port, database, login, password);
         }

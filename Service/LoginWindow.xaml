@@ -20,7 +20,8 @@
         <Label x:Name="PasswordLabel" Content="Пароль:" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" Height="38" Width="84" FontSize="22"/>
         <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Height="35" Margin="99,104,0,0" VerticalAlignment="Top" Width="226" KeyDown="PasswordBox_KeyDown" Grid.ColumnSpan="2" FontSize="22"/>
         <Button   x:Name="EnterButton" Content="Войти" HorizontalAlignment="Left" Height="41" Margin="99,147,0,0" VerticalAlignment="Top" Width="146" Click="Button_Click" Grid.ColumnSpan="2" FontSize="22" Background="#FFDDDDDD"/>
-        <Button x:Name="GuestButton" Content="Я клиент" HorizontalAlignment="Left" Height="34" Margin="28,216,0,0" VerticalAlignment="Top" Width="125" Click="GuestButton_Click" Grid.Column="1" FontSize="22"/>
+        <Button x:Name="GuestButton" Content="Я клиент" HorizontalAlignment="Right" Height="34" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="125" Click="GuestButton_Click" Grid.Column="1" FontSize="22"/>
         <Label Content="ServiceApp" HorizontalAlignment="Left" Margin="113,19,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="22"/>
+        <Button x:Name="ConnSettingWindowButton" Content="Настройка соединения" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Padding="10,1" Click="ConnSettingWindowButton_Click"/>
     </Grid>
 </Window>

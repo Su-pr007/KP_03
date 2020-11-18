@@ -208,13 +208,18 @@ namespace Service
 
         public void ReadSqlQuery(string sql)
         {
-            conn.Open();
-            // запрос
-            ;
+            /*conn.Open();
             // объект для выполнения SQL-запроса
             MySqlCommand command = new MySqlCommand(sql, conn);
             // объект для чтения ответа сервера
             MySqlDataReader reader = command.ExecuteReader();
+
+            DataTable NewTable = new DataTable();
+
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                NewTable.Columns.Add(new DataColumn(reader.));
+            }
             // читаем результат
             while (reader.Read())
             {
@@ -226,7 +231,7 @@ namespace Service
             }
             reader.Close(); // закрываем reader
             // закрываем соединение с БД
-            conn.Close();
+            conn.Close();*/
         }
 
 

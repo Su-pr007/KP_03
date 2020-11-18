@@ -5245,7 +5245,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5965,7 +5965,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6807,7 +6807,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7445,7 +7445,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7858,7 +7858,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8040,8 +8040,10 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         internal global::MySql.Data.MySqlClient.MySqlConnection Connection {
             get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
+                if ((this._connection == null))
+                {
+                    this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
+                    this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
                 }
                 return this._connection;
             }
@@ -8255,7 +8257,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -8747,7 +8749,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9259,7 +9261,7 @@ namespace Service.serviceDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::MySql.Data.MySqlClient.MySqlConnection();
-            this._connection.ConnectionString = global::Service.Properties.Settings.Default.serviceConnectionString;
+            this._connection.ConnectionString = Variables.ConnSett.ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

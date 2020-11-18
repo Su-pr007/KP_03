@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
@@ -38,6 +39,7 @@ namespace Service
 
         public void TryOpenMenuWindow(string login, string password)
         {
+            Variables.InitConn();
 
             Regex regex = new Regex(@"^Service");
             if (!regex.IsMatch(login))
@@ -72,15 +74,14 @@ namespace Service
             {
                 string msg = err.Message;
                 Console.WriteLine("Error: " + msg);
-                Console.WriteLine("=======================");
                 string msgFW = msg.Split(' ').First();
                 switch (msgFW)
                 {
                     case "Authentication":
-                        Notification.ShowError("Неверный логин или пароль", "Ошибка");
+                        Notification.ShowError("Ошибка входа. \nПроверьте название сервера, логин и пароль", "Ошибка");
                         break;
                     default:
-                        Notification.ShowError(err.Message, "Ошибка");
+                        Notification.ShowError(msg, "Ошибка");
                         break;
 
                 }
@@ -180,6 +181,16 @@ namespace Service
         private void Window_Closed(object sender, EventArgs e)
         {
             Variables.ApplicationStop();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ConnSettingWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            new ConnSettingWindow().ShowDialog();
         }
     }
 }

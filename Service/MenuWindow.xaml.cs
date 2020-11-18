@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using MySql;
 using static Service.Variables;
+using System.Configuration;
 
 namespace Service
 {
@@ -59,7 +60,7 @@ namespace Service
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            Hide();
             LoginWindow_Window.Show();
             ClearVariables();
         }
@@ -82,10 +83,13 @@ namespace Service
             {
                 case Key.D1:
                     ToTablesButton_Click(new object(), new RoutedEventArgs());
-                    return;
+                    break;
                 case Key.D2:
                     ToQueriesButton_Click(new object(), new RoutedEventArgs());
-                    return;
+                    break;
+                case Key.Back:
+                    ReturnButton_Click(new object(), new RoutedEventArgs());
+                    break;
             }
         }
     }
