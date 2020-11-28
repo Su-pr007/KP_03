@@ -15,7 +15,7 @@
       <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
     <Setting Name="DefaultPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3307</Value>
+      <Value Profile="(Default)">3306</Value>
     </Setting>
     <Setting Name="DefaultName" Type="System.String" Scope="User">
       <Value Profile="(Default)">service</Value>

@@ -66,7 +66,7 @@ namespace Service.Properties
 			{
 				if (IsChange)
                 {
-                    xsw.Add(Variables.FindMyDGByName(SelectedDataGrid.Name).TV.Table.Rows[SelectedDataGrid.SelectedIndex][i]);
+                    xsw.Add(Variables.FindMyDGByName(SelectedDataGrid.Name).DV.Table.Rows[SelectedDataGrid.SelectedIndex][i]);
                 }
                 else xsw.Add("");
 			}
@@ -89,7 +89,7 @@ namespace Service.Properties
 				DataColumn NewColumn = new DataColumn()
 				{
 					ColumnName = i == 0 ? "Поле" : "Значение",
-					ReadOnly = i == 0 ? true : false,
+					ReadOnly = i == 0,
 				};
 				NewTable.Columns.Add(NewColumn);
             }

@@ -29,18 +29,41 @@ namespace Service
             InitializeComponent();
         }
         
-        
-        
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (DBlogin=="ServiceAccountant")
+            // Скрыть все кнопки
+            ToTablesButton.Visibility = Visibility.Collapsed;
+            ToQueriesButton.Visibility = Visibility.Visible;
+            CreateOrderButton.Visibility = Visibility.Collapsed;
+            // Показать каждому свои
+            switch (ProfileId)
             {
-                ToTablesButton.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                ToTablesButton.Visibility = Visibility.Visible;
+                // Менеджер
+                case 1:
+                    ToTablesButton.Visibility = Visibility.Visible;
+                    break;
+                // Ремонтник
+                case 2:
+                    ToTablesButton.Visibility = Visibility.Visible;
+                    break;
+
+                //  Бухгалтер
+                case 3:
+                    break;
+                //  Отдел кадров
+                case 4:
+                    ToTablesButton.Visibility = Visibility.Visible;
+                    break;
+                //  Админ базы данных
+                case 5:
+                    ToTablesButton.Visibility = Visibility.Visible;
+                    CreateOrderButton.Visibility = Visibility.Visible;
+                    break;
+                //  Заказчик
+                case 6:
+                    CreateOrderButton.Visibility = Visibility.Visible;
+                    ToQueriesButton.Visibility = Visibility.Collapsed;
+                    break;
             }
             if (ProfileId >= 6)
             {
@@ -77,6 +100,8 @@ namespace Service
             this.Hide();
         }
 
+
+        // УБРАТЬ
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -87,10 +112,19 @@ namespace Service
                 case Key.D2:
                     ToQueriesButton_Click(new object(), new RoutedEventArgs());
                     break;
+                case Key.D3:
+                    CreateOrderButton_Click(new object(), new RoutedEventArgs());
+                    break;
                 case Key.Back:
                     ReturnButton_Click(new object(), new RoutedEventArgs());
                     break;
             }
+        }
+
+        private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            new CreateOrderWindow().Show();
+            Hide();
         }
     }
 }

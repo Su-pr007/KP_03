@@ -47,7 +47,7 @@ namespace Service
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			string[] TabHeaders;
+			string[] TabHeaders = new string[] { };
 			switch (ProfileId)
 			{
 				// ServiceManager - Менеджер
@@ -60,7 +60,6 @@ namespace Service
 					break;
 				// ServiceAccountant - Бухгалтер
 				case 3:
-					TabHeaders = new string[] { };
 					break;
 				// ServicePersDepart - Отдел кадров
 				case 4:
@@ -74,87 +73,65 @@ namespace Service
 				case 6:
 					TabHeaders = new string[] { "Заказы" };
 					break;
-				// Другие
-				default:
-					TabHeaders = new string[] { };
-					break;
 			}
+			Name = "TablesWindow";
 			TabItems.Clear(this);
-			TabItems.Create(this, TabHeaders);
+			List<TabItem> CreatedTabItemsList = TabItems.Create(this, TabHeaders);
+			foreach(var i in CreatedTabItemsList)
+            {
+				MainTabs.Items.Add(i);
+            }
 
-
-
-
-			// Заполнение таблиц
 			ReloadTables();
-			DataGrids.ElementAt(0);
 		}
 
+		// Заполнение таблиц
 		public void ReloadTables()
 		{
-			for (int i = 0; i < MainTabs.Items.Count; i++)
+			foreach (TabItem CurrentTabItem in MainTabs.Items)
 			{
-				DataGrid CurrentDataGrid = DataGrids.ElementAt(i);
-				switch (CurrentDataGrid.Name.ToString())
-				{
-					case "employees":
-						FillTable.ByDG("SELECT * FROM employees", CurrentDataGrid);
-						break;
-					case "orders":
-						FillTable.ByDG("SELECT * FROM orders", CurrentDataGrid);
-						break;
-					case "fault_types":
-						FillTable.ByDG("SELECT * FROM fault_types", CurrentDataGrid);
-						break;
-					case "parts":
-						FillTable.ByDG("SELECT * FROM parts", CurrentDataGrid);
-						break;
-					case "positions":
-						FillTable.ByDG("SELECT * FROM positions", CurrentDataGrid);
-						break;
-					case "repaired_models":
-						FillTable.ByDG("SELECT * FROM repaired_models", CurrentDataGrid);
-						break;
-					case "served_shops":
-						FillTable.ByDG("SELECT * FROM served_shops", CurrentDataGrid);
-						break;
-					case null:
-						Console.WriteLine("НУЛЛЫ");
-						break;
-					default:
-
-						continue;
-				}
+				
+				DataGrid CurrentDataGrid = FindMyDGByName(CurrentTabItem.Name).DG;
+				if (CurrentDataGrid.Name.ToString() != null)
+                {
+					FillTable.ByDG(CurrentDataGrid);
+                }
+                else
+                {
+					Console.WriteLine("Неизвестная таблица");
+                }
 			}
 		}
 
 		// Кнопка возврата в меню
 		private void ReturnButton_Click(object sender, RoutedEventArgs e)
 		{
-			MenuWindow_Window.Show();
-			Hide();
+			MyDGs.Clear();
+			ReturnToMenuFrom(this);
 		}
-		
+
+		// Кнопка обновления таблиц
+		private void ReloadButton_Click(object sender, RoutedEventArgs e)
+		{
+			ReloadTables();
+		}
+
 		// Кнопка фильтрации строк
 		private void FilterButton_Click(object sender, RoutedEventArgs e)
 		{
-			new FilterWindow(DataGrids.ElementAt(SelectedTabIndex)).ShowDialog();
-
-
-
+			new FilterWindow(DataGrids.ElementAt(SelectedTabIndex), this).ShowDialog();
 		}
 
 		// Кнопка поиска по таблице
 		private void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-			new SearchWindow().ShowDialog();
+			new SearchWindow(this).ShowDialog();
 			
 		}
 
-
+		// Изменение выбранной вкладки
 		private void TabControlChangedSelection(object sender, SelectionChangedEventArgs e)
 		{
-			// Индекс выбранной вкладки
 			SelectedTabIndex = MainTabs.SelectedIndex;
 			CurrentDataGridName = DataGrids[SelectedTabIndex].Name;
 		}
@@ -163,7 +140,6 @@ namespace Service
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
 			string res = "NO";
-
 			int ItemsCount = DataGrids.ElementAt(SelectedTabIndex).SelectedItems.Count;
 
 			if (ItemsCount == 1)
@@ -180,10 +156,6 @@ namespace Service
 			}
 			if (res.ToString().ToLower() == "yes")
 			{
-
-
-
-				Console.WriteLine("YES");
 				MyDataGrid thisDG = FindMyDGByName(DataGrids[SelectedTabIndex].Name);
 
 				DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
@@ -193,34 +165,22 @@ namespace Service
 				
 				for(int i = 0; i < ItemsCount; i++)
                 {
-					sql += MyDGs[SelectedTabIndex].PK + " = '" + thisDG.TV.Table.Rows[(SelectedDataGrid.SelectedIndex) + i][0];
+					sql += MyDGs[SelectedTabIndex].PK + " = '" + thisDG.DV.Table.Rows[(SelectedDataGrid.SelectedIndex) + i][0];
                     sql += i == ItemsCount - 1? "';":"' or ";
 				}
 
-
-
 				ExecuteSqlQueryNoResults(sql);
-				
 			}
 
 
-
-
 		}
-
-
 
 		// Кнопка изменения строки
 		public void ChangeRowButton_Click(object sender, RoutedEventArgs e)
 		{
 			SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
 
-			System.Collections.IEnumerator DataGridEnumerator = SelectedDataGrid.ItemsSource.GetEnumerator();
-
-
 			IList<DataGridCellInfo> SelectedCells = SelectedDataGrid.SelectedCells;
-
-			
 
 			if (SelectedCells.Count == SelectedDataGrid.Columns.Count)
 			{
@@ -232,15 +192,13 @@ namespace Service
 			}
 		}
 
-
 		// Кнопка добавления строки
 		private void AddRowButton_Click(object sender, RoutedEventArgs e)
 		{
 			new DataManipulationsWindow(DataGrids.ElementAt(SelectedTabIndex), false).ShowDialog();
 		}
 
-
-
+		// Выполнение запроса без возврата результата
 		public void ExecuteSqlQueryNoResults(string sql)
         {
 
@@ -271,11 +229,17 @@ namespace Service
 		}
 
 
-
-
+		// Обновление на F5
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.F5) ReloadTables();
-        }
+			switch (e.Key) {
+				case Key.F5:
+					ReloadTables();
+					break;
+				case Key.F1:
+					Variables.ShowHelp();
+					break;
+			}
+		}
     }
 }

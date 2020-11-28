@@ -23,7 +23,7 @@ namespace Service
         }
         public static MessageBoxResult ShowAsk(string msg)
         {
-            return MessageBox.Show(msg, "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            return MessageBox.Show(msg, "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Information);
         }
     }
 }

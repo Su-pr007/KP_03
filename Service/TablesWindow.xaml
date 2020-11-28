@@ -13,12 +13,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="160"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="SearchButton" Content="Поиск по таблице" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,98" VerticalAlignment="Bottom" Click="SearchButton_Click" Grid.Column="1"/>
-        <Button x:Name="FilterButton" Content="Фильтр" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,123" VerticalAlignment="Bottom" Click="FilterButton_Click" Grid.Column="1"/>
-        <Button x:Name="DeleteButton" Content="Удаление запис(и/ей)" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,73" VerticalAlignment="Bottom" Click="DeleteButton_Click" Grid.Column="1"/>
-        <Button x:Name="ChangeRowButton" Content="Редактировать запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,48" VerticalAlignment="Bottom" Click="ChangeRowButton_Click" Grid.Column="1"/>
-        <Button x:Name="AddRowButton" Content="Добавить запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,23" VerticalAlignment="Bottom" Click="AddRowButton_Click" Grid.Column="1"/>
 
+        <TabControl x:Name="MainTabs" SelectionChanged="TabControlChangedSelection" />
         <Button x:Name="ReturnButton"
                     Content="Назад"
                     Width="100" Height="20"
@@ -29,9 +25,12 @@
                     Grid.Column="1"
                     Grid.Row="0"
                     Panel.ZIndex="1"/>
-        <TabControl x:Name="MainTabs" SelectionChanged="TabControlChangedSelection" >
-
-        </TabControl>
+        <Button x:Name="ReloadButton" Content="Обновить" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,148" VerticalAlignment="Bottom" Click="ReloadButton_Click" Grid.Column="1"/>
+        <Button x:Name="FilterButton" Content="Фильтр" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,123" VerticalAlignment="Bottom" Click="FilterButton_Click" Grid.Column="1"/>
+        <Button x:Name="SearchButton" Content="Поиск по таблице" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,98" VerticalAlignment="Bottom" Click="SearchButton_Click" Grid.Column="1"/>
+        <Button x:Name="DeleteButton" Content="Удаление запис(и/ей)" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,73" VerticalAlignment="Bottom" Click="DeleteButton_Click" Grid.Column="1"/>
+        <Button x:Name="ChangeRowButton" Content="Редактировать запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,48" VerticalAlignment="Bottom" Click="ChangeRowButton_Click" Grid.Column="1"/>
+        <Button x:Name="AddRowButton" Content="Добавить запись" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,23" VerticalAlignment="Bottom" Click="AddRowButton_Click" Grid.Column="1"/>
 
     </Grid>
 </Window>

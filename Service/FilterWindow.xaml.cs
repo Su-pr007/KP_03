@@ -22,21 +22,24 @@ namespace Service
 	/// 
 	public partial class FilterWindow : Window
 	{
-		string thisDGName;
+		string ThisDGName;
 		public DataTable FilterDataTable;
+		string ThisWindowName;
 
-		public FilterWindow(DataGrid thisDG)
+		public FilterWindow(DataGrid ThisDG, Window window)
 		{
 			InitializeComponent();
 
-
-			thisDGName = thisDG.Name;
+			ThisWindowName = window.Name;
+			ThisDGName = ThisDG.Name;
 		}
 		private void FilterWindow1_Loaded(object sender, RoutedEventArgs e)
 		{
+			FilterDataTable = null;
 			AndCheckBox.IsChecked = Variables.AndFilterChecked;
-			MyDataGrid thisDG = Variables.FindMyDGByName(thisDGName);
-			DataTable thisTV = thisDG.TV.Table;
+			DataTable thisDV;
+			if (ThisWindowName == "TablesWindow") thisDV = Variables.FindMyDGByName(ThisDGName).DV.Table;
+			else thisDV = Variables.FindMyDGByName(ThisDGName).DV.Table;
 
 
 			DataTable NewTable = new DataTable();
@@ -45,14 +48,14 @@ namespace Service
 				DataColumn NewColumn = new DataColumn()
 				{
 					ColumnName = i == 0 ? "Поле" : "Значение",
-					ReadOnly = i == 0 ? true : false,
+					ReadOnly = i == 0,
 				};
 				NewTable.Columns.Add(NewColumn);
 			}
-			for(int i = 0; i < thisTV.Columns.Count; i++)
+			for(int i = 0; i < thisDV.Columns.Count; i++)
 			{
 				DataRow NewRow = NewTable.NewRow();
-				NewRow[0] = thisTV.Columns[i].ColumnName;
+				NewRow[0] = thisDV.Columns[i].ColumnName;
 				NewRow[1] = "";
 				NewTable.Rows.Add(NewRow);
 			}
@@ -64,11 +67,10 @@ namespace Service
 
 		private void SaveButton_Click(object sender, RoutedEventArgs e)
 		{
+			string msg = "Поиск завершён";
 			Variables.AndFilterChecked = AndCheckBox.IsChecked.Value;
 
-
-			MyDataGrid MyDG = Variables.FindMyDGByName(Variables.CurrentDataGridName);
-			DataTable DGTable = MyDG.TV.Table;
+			DataTable DGTable = Variables.FindMyDGByName(Variables.CurrentDataGridName).DV.Table;
 
 			DataTable FilteredDT = new DataTable();
 			List<string> FilterDGData = new List<string>();
@@ -76,10 +78,11 @@ namespace Service
 
 			for (int i = 0; i < FilterDataTable.Rows.Count; i++)
 			{
-				FilteredDT.Columns.Add(Variables.FindMyDGByName(Variables.CurrentDataGridName).TV.Table.Columns[i].ColumnName);
+				FilteredDT.Columns.Add(DGTable.Columns[i].ColumnName);
 				FilterDGData.Add(FilterDataTable.Rows[i][1].ToString());
 			}
 			bool FoundRow = false;
+
 
 			for (int i = 0; i < FilterDGData.Count; i++)
 			{
@@ -99,7 +102,16 @@ namespace Service
 						for (int j = 0; j < DGTable.Columns.Count; j++)
 						{
 							if (FilterDGData[j] == "") continue;
-							Regex regex = new Regex(@"" + FilterDGData[j]);
+							Regex regex;
+							try
+							{
+								regex = new Regex(@"" + FilterDGData[j]);
+							}
+							catch
+							{
+								msg = "Введён недопустимый символ";
+								break;
+							}
 
 							if (regex.IsMatch(DGTable.Rows[i].ItemArray[j].ToString()))
 							{
@@ -118,15 +130,25 @@ namespace Service
 					Dictionary<int, string> q = new Dictionary<int, string>();
 					for (int i = 0; i < FilterDGData.Count; i++) if (FilterDGData[i] != "") q.Add(i, FilterDGData[i]);
 
-					DataTable CurrentDT = Variables.FindMyDGByName(Variables.CurrentDataGridName).TV.Table;
+					DataTable CurrentDT = Variables.FindMyDGByName(Variables.CurrentDataGridName).DV.Table;
 
 					foreach (var FilterRow in q)
 					{
-						for(int j = 0; j < CurrentDT.Rows.Count; j++)
-                        {
+						for (int j = 0; j < CurrentDT.Rows.Count; j++)
+						{
 							for (int i = 0; i < CurrentDT.Rows.Count; i++)
 							{
-								Regex regex = new Regex(@"" + FilterRow.Value);
+								Regex regex;
+
+								try
+								{
+									regex = new Regex(@"" + FilterRow.Value);
+								}
+								catch
+								{
+									msg = "Введён недопустимый символ";
+									break;
+								}
 								if (!regex.IsMatch(CurrentDT.Rows[i].ItemArray[FilterRow.Key].ToString()))
 								{
 									CurrentDT.Rows.RemoveAt(i);
@@ -134,7 +156,7 @@ namespace Service
 								}
 							}
 
-                        }
+						}
 
 					}
 
@@ -144,10 +166,14 @@ namespace Service
 					}
 				}
 
-
-				MyDG.DG.ItemsSource = FilteredDT.DefaultView;
+				Variables.FindMyDGByName(Variables.CurrentDataGridName).DV = FilteredDT.DefaultView;
+				Variables.FindMyDGByName(Variables.CurrentDataGridName).DG.ItemsSource = FilteredDT.DefaultView;
 			}
-			else Variables.TablesWindow_Window.ReloadTables();
+			else
+			{
+				Variables.TablesWindow_Window.ReloadTables();
+			}
+			Notification.ShowNotice(msg);
 
 
 			Hide();
@@ -155,8 +181,6 @@ namespace Service
 
 		private void CancelButton_Click(object sender, RoutedEventArgs e)
 		{
-
-
 			Hide();
 		}
 

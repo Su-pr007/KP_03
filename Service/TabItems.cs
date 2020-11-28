@@ -20,15 +20,47 @@ namespace Service
         // ------------------
         // Window - Используется для передачи текущего окна. Использовать this
         // TabHeaders - Названия вкладок
-        public static void Create(TablesWindow Window, string[] TabHeaders)
+        public static List<TabItem> Create(Window Window, string[] TabHeaders)
         {
-            string[] AllTabHeaders = new string[] { "Сотрудники", "Заказы", "Запчасти", "Должности", "Ремонтируемые модели", "Обслуживаемые магазины", "Виды неисправностей", };
-            string[] AllTabNames = new string[] { "employees", "orders", "parts", "positions", "repaired_models", "served_shops", "fault_types", };
+            List<TabItem> Result = new List<TabItem>() { };
+            string[] AllTabHeaders = new string[] { };
+            string[] AllTabNames = new string[] { };
+            if (Window.Name == "TablesWindow")
+            {
+                AllTabHeaders = new string[] { "Сотрудники", "Заказы", "Запчасти", "Должности", "Ремонтируемые модели", "Обслуживаемые магазины", "Виды неисправностей", };
+                AllTabNames = new string[] { "employees", "orders", "parts", "positions", "repaired_models", "served_shops", "fault_types", };
+            }
+            else if (Window.Name=="ReportWindow")
+            {
+                AllTabHeaders = new string[] { "Отдел кадров", "Список неисправностей", "Список заказов" };
+                AllTabNames = new string[] { "PersonnelDepartment", "FaultsList", "OrdersList" };
+            }
+
+            List<string> TabNames = new List<string>();
+            
 
             if (TabHeaders.Length == 1 && TabHeaders.First() == "*")
             {
-                TabHeaders = AllTabNames;
+                TabNames = AllTabNames.ToList();
+                TabHeaders = AllTabHeaders;
             }
+            else
+            {
+                foreach (var i in TabHeaders)
+                {
+                    try
+                    {
+                        TabNames.Add(AllTabNames[AllTabHeaders.ToList().IndexOf(i)]);
+                    }
+                    catch
+                    {
+                        Notification.ShowError("Ошибка при поиске доступных таблиц. Обратитесь к администратору");
+                    }
+                }
+
+            }
+
+
 
             int TabCount = TabHeaders.Length;
 
@@ -48,7 +80,7 @@ namespace Service
                 {
                     DataGrid CurrentDataGrid = new DataGrid()
                     {
-                        Name = AllTabNames[i],
+                        Name = TabNames[i],
                         Margin = new Thickness
                         {
                             Left = 0,
@@ -60,8 +92,6 @@ namespace Service
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         IsReadOnly = true,
                     };
-                    Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
-                    Variables.DataGrids.Add(CurrentDataGrid);
 
 
                     Grid CurrentGrid = new Grid()
@@ -72,18 +102,20 @@ namespace Service
                     TabItem CurrentTabItem = new TabItem()
                     {
                         IsSelected = i == 0,
-                        Header = AllTabHeaders.ElementAt(i),
-                        Name = TabHeaders.ElementAt(i),
+                        Header = TabHeaders.ElementAt(i),
+                        Name = TabNames.ElementAt(i),
                     };
 
 
                     CurrentGrid.Children.Add(CurrentDataGrid);
                     CurrentTabItem.Content = CurrentGrid;
 
-                    Window.MainTabs.Items.Add(CurrentTabItem);
 
-                    string PKey;
-                    switch (AllTabNames[i])
+
+                    Result.Add(CurrentTabItem);
+
+                    string PKey = "";
+                    switch (TabNames[i])
                     {
                         case "employees":
                             PKey = "e_id";
@@ -109,22 +141,29 @@ namespace Service
                         case "parts_faults":
                             PKey = "pf_id";
                             break;
-                        default:
-                            PKey = "error";
-                            break;
                     }
 
 
-                    Variables.MyDGs.Add(new MyDataGrid());
 
-                    CurrentDataGrid.MouseDoubleClick += CurrentDataGrid_MouseDoubleClick;
-
-                    Variables.MyDGs[i].DG = CurrentDataGrid;
-                    Variables.MyDGs[i].PK = PKey;
+                    if (Window.Name == "TablesWindow")
+                    {
+                        Variables.MyDGs.Add(new MyDataGrid()
+                        {
+                        DG = CurrentDataGrid,
+                        PK = PKey,
+                        });
+                        CurrentDataGrid.MouseDoubleClick += CurrentDataGrid_MouseDoubleClick;
+                        Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
+                        Variables.DataGrids.Add(CurrentDataGrid);
+                    }
+                    else
+                    {
+                        Variables.ReportGrids.Add(CurrentDataGrid);
+                    }
 
                 }
-                
             }
+            return Result;
         }
 
         private static void CurrentDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -136,9 +175,6 @@ namespace Service
         {
             thisWindow.MainTabs.Items.Clear();
         }
-
-
-
 
     }
 }

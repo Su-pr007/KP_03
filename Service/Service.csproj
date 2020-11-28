@@ -89,6 +89,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GemBox.Spreadsheet, Version=47.0.0.1029, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <HintPath>..\packages\GemBox.Spreadsheet.47.0.1029\lib\net35\GemBox.Spreadsheet.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=8.0.19.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\MySql.Data.dll</HintPath>
@@ -136,6 +139,9 @@
     <Compile Include="ConnSettingWindow.xaml.cs">
       <DependentUpon>ConnSettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateOrderWindow.xaml.cs">
+      <DependentUpon>CreateOrderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataManipulationsWindow.xaml.cs">
       <DependentUpon>DataManipulationsWindow.xaml</DependentUpon>
     </Compile>
@@ -175,6 +181,10 @@
       <DependentUpon>SearchWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="ConnSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateOrderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

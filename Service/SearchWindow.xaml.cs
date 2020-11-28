@@ -24,21 +24,22 @@ namespace Service
 
         DataTable SelectedDataGrid;
         DataTable arr;
+        MyDataGrid thisDG;
 
-        public SearchWindow()
+
+        public SearchWindow(Window thisWindow)
         {
             InitializeComponent();
             arr = new DataTable();
-
         }
 
 
         private void SearchWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            thisDG = Variables.FindMyDGByName(Variables.CurrentDataGridName);
 
             SearchTextBox.Focus();
-            SelectedDataGrid = Variables.FindMyDGByName(Variables.CurrentDataGridName).TV.Table;
-
+            SelectedDataGrid = thisDG.DV.Table;
 
             for (int i = 0; i < SelectedDataGrid.Columns.Count; i++) arr.Columns.Add(new DataColumn() { ColumnName = SelectedDataGrid.Columns[i].ColumnName });
 
@@ -72,7 +73,8 @@ namespace Service
                 }
             }
 
-            Variables.FindMyDGByName(Variables.CurrentDataGridName).DG.ItemsSource = arr.DefaultView;
+            thisDG.DG.ItemsSource = arr.DefaultView;
+            thisDG.DV = arr.DefaultView;
 
             SearchTextBox.Clear();
             Hide();

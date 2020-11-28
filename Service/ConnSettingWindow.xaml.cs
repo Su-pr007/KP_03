@@ -19,6 +19,9 @@ namespace Service
     /// </summary>
     public partial class ConnSettingWindow : Window
     {
+        DBConnectionSettings DBConnSettings = new DBConnectionSettings();
+
+
         public ConnSettingWindow()
         {
             InitializeComponent();
@@ -42,7 +45,6 @@ namespace Service
             Variables.DBConnSettings.Port = DBPortTextBox.Text;
             Variables.DBConnSettings.Name = DBNameTextBox.Text;
             Variables.DBConnSettings.Save();
-            Console.WriteLine(Variables.DBConnSettings.IP);
 
             Close();
         }

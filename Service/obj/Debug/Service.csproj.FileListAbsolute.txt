@@ -13,7 +13,6 @@ C:\Users\Максим\source\repos\Service\Service\obj\Debug\Service.exe
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\Service.pdb
 C:\Users\Максим\source\repos\Service\Service\bin\Debug\Google.Protobuf.dll
 C:\Users\Максим\source\repos\Service\Service\bin\Debug\Renci.SshNet.dll
-C:\Users\Максим\source\repos\Service\Service\bin\Debug\BouncyCastle.Crypto.dll
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\LoginWindow.g.cs
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\LoginWindow.baml
 C:\Users\Максим\source\repos\Service\Service\obj\Debug\Service.csproj.CopyComplete
@@ -55,3 +54,7 @@ C:\Users\Максим\source\repos\Service\Service\bin\Debug\System.Configuratio
 C:\Users\Максим\source\repos\Service\Service\bin\Debug\System.Security.AccessControl.xml
 C:\Users\Максим\source\repos\Service\Service\bin\Debug\System.Security.Permissions.xml
 C:\Users\Максим\source\repos\Service\Service\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\Максим\source\repos\Service\Service\bin\Debug\GemBox.Spreadsheet.dll
+C:\Users\Максим\source\repos\Service\Service\bin\Debug\GemBox.Spreadsheet.xml
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\CreateOrderWindow.g.cs
+C:\Users\Максим\source\repos\Service\Service\obj\Debug\CreateOrderWindow.baml

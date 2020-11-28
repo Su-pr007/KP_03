@@ -73,7 +73,7 @@ namespace Service {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3307")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3306")]
         public string DefaultPort {
             get {
                 return ((string)(this["DefaultPort"]));

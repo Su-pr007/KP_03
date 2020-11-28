@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Xml.Linq;
+using static Service.Variables;
 
 namespace Service
 {
@@ -15,60 +16,109 @@ namespace Service
     {
 
         // sql - Текст MySQL запроса
-        // DataGridName - Имя заполняемой таблицы
-        public static void ByDG(string sql, DataGrid DataGridName)
+        // DataGridToFill - Имя заполняемой таблицы
+        public static void ByDG(string sql, DataGrid DataGridToFill)
         {
 
-            DataGridName.ItemsSource = null;
+            DataGridToFill.ItemsSource = null;
 
+            DataTable NewDataTable = new DataTable();
 
+            conn = new MySqlConnection(ConnSett.ConnectionString);
+            conn.Open();
 
-            DataTableCollection Tables = Variables.ServiceDB.Tables;
+            MySqlCommand command = new MySqlCommand(sql, conn);
+            var reader = command.ExecuteReader();
 
-            if (Tables.Contains(DataGridName.Name))
+            if (reader.HasRows)
             {
-                DataView TableView = new DataView();
+                var ColumnsEng = new List<string>() { };
 
+                var SchemaTable = reader.GetSchemaTable();
 
-                for (int i = 0; i<Tables.Count; i++)
+                for(int i = 0; i < reader.FieldCount; i++)
                 {
-                    switch(DataGridName.Name)
-                    {
-                        case "employees":
-                            TableView = Variables.GetTableDataByTableName("employees");
-                            break;
-                        case "fault_types":
-                            TableView = Variables.GetTableDataByTableName("fault_types");
-                            break;
-                        case "orders":
-                            TableView = Variables.GetTableDataByTableName("orders");
-                            break;
-                        case "parts":
-                            TableView = Variables.GetTableDataByTableName("parts");
-                            break;
-                        case "parts_faults":
-                            TableView = Variables.GetTableDataByTableName("parts_faults");
-                            break;
-                        case "positions":
-                            TableView = Variables.GetTableDataByTableName("positions");
-                            break;
-                        case "repaired_models":
-                            TableView = Variables.GetTableDataByTableName("repaired_models");
-                            break;
-                        case "served_shops":
-                            TableView = Variables.GetTableDataByTableName("served_shops");
-                            break;
-                        default:
-                            continue;
-                    }
+                    ColumnsEng.Add(SchemaTable.Rows[i].ItemArray[0].ToString());
+                    NewDataTable.Columns.Add(DictionarySearch(ColumnsDictionary, ColumnsEng.Last()));
+
                 }
-                var MyDGName = Variables.FindMyDGByName(DataGridName.Name);
-                MyDGName.Name = DataGridName.Name;
+                while (reader.Read())
+                {
+                    DataRow NewRow = NewDataTable.NewRow();
+                    var Row = new List<string>() { };
+                    for (int i=0;i< reader.FieldCount;i++)
+                    {
+                        try
+                        {
+                            if (reader.IsDBNullAsync(i).Result)
+                            {
+                                Row.Add("");
+                            }
+                            else
+                            {
+                                Row.Add(reader.GetString(ColumnsEng[i]));
+
+                            }
+                        }
+                        catch
+                        {
+                            Row.Add("");
+                        }
+                        
+
+                    }
+                    NewRow.ItemArray = Row.ToArray();
+                    NewDataTable.Rows.Add(NewRow);
+                }
+
+            }
+
+            conn.Close();
+
+/*
+            if (ReportWindow.isLoaded)
+            {
+                var NameAtReportTables = FindMyDGByName(DataGridToFill.Name);
+                NewDataTable.TableName = DataGridToFill.Name;
+                NameAtReportTables.DV = NewDataTable.DefaultView;
+            }
+            else
+            {*/
+                MyDataGrid thisTable = new MyDataGrid()
+                {
+                    DV = NewDataTable.DefaultView,
+                    DG = DataGridToFill,
+                    Name = DataGridToFill.Name,
+                };
+                thisTable.DV.Table.TableName = DataGridToFill.Name;
+                ReportTables.Add(thisTable);
+            /*}*/
+
+            DataGridToFill.ItemsSource = NewDataTable.DefaultView;
+        }
+        public static void ByDG(DataGrid DataGridToFill)
+        {
+
+            DataGridToFill.ItemsSource = null;
+
+
+
+            DataTableCollection Tables = ServiceDB.Tables;
+
+            if (Tables.Contains(DataGridToFill.Name))
+            {
+                DataView TableView;
+
+
+                TableView = GetTableDataByTableName(DataGridToFill.Name);
+                var MyDGName = FindMyDGByName(DataGridToFill.Name);
+                MyDGName.Name = DataGridToFill.Name;
 
                 if (TableView != null)
                 {
-                    MyDGName.TV = TableView;
-                    DataGridName.ItemsSource = TableView;
+                    TableView.Table.TableName = DataGridToFill.Name;
+                    MyDGName.DV = TableView;
+                    DataGridToFill.ItemsSource = TableView;
                 } 
 
             }

@@ -5,15 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Service"
         mc:Ignorable="d"
-        Title="ServiceApp" Height="450" Width="800" Loaded="ReportWindow_Loaded" MinWidth="800" MinHeight="450" Closed="ReportWindow_Closed" WindowStartupLocation="CenterScreen" Icon="ico.ico">
+        Title="ServiceApp" Height="450" Width="800" Loaded="ReportWindow_Loaded" MinWidth="800" MinHeight="450" Closed="ReportWindow_Closed" WindowStartupLocation="CenterScreen" Icon="ico.ico" KeyDown="ReportWindow1_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="160"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="SaveButton" Content="Сохранить эту таблицу" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,37,10,0" VerticalAlignment="Top" Click="SaveButton_Click" Grid.Column="1" Height="20"/>
-        <Button x:Name="SearchButton" Content="Поиск по таблице" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="SearchButton_Click" Grid.Column="1" Height="20"/>
-        <Button x:Name="FilterButton" Content="Фильтр" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,35" VerticalAlignment="Bottom" Click="FilterButton_Click" Grid.Column="1" Height="20"/>
+        <TabControl x:Name="ReportTabs" SelectionChanged="TabControlSelectionChanged">
+            <!--
+            <TabItem IsSelected="true"
+                    Grid.Column="0"
+                    x:Name="PersonnelDepartment"
+                    Header="Отчет по сотрудникам"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Height="22" Width="140" Margin="0">
+                <Grid x:Name="MainGrid" Background="#FFE5E5E5" Margin="0">
+                    <DataGrid x:Name="DataGridEmpRep" Margin="0" Height="Auto" Width="Auto" IsReadOnly="True"/>
+                </Grid>
+            </TabItem> -->
+        </TabControl>
+
 
         <Button x:Name="ReturnButton"
                     Content="Назад"
@@ -25,21 +37,10 @@
                     Grid.Column="1"
                     Grid.Row="0"
                     Panel.ZIndex="1"/>
-        <TabControl x:Name="ReportTabs" SelectionChanged="TabControlSelectionChanged">
-
-            <TabItem IsSelected="true"
-                    Grid.Column="0"
-                    x:Name="EmployeesReport"
-                    Header="Отчет по сотрудникам"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Height="22" Width="140" Margin="0">
-                <Grid x:Name="MainGrid" Background="#FFE5E5E5" Margin="0">
-                    <DataGrid x:Name="DataGridEmpRep" Margin="0" Height="Auto" Width="Auto" IsReadOnly="True"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
-
+        <Button x:Name="SaveButton" Content="Сохранить эту таблицу" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,37,10,0" VerticalAlignment="Top" Click="SaveButton_Click" Grid.Column="1" Height="20"/>
+        <Button x:Name="ReloadButton" Content="Обновить" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,60" VerticalAlignment="Bottom" Click="ReloadButton_Click" Grid.Column="1" Height="20"/>
+        <Button x:Name="FilterButton" Content="Фильтр" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,35" VerticalAlignment="Bottom" Click="FilterButton_Click" Grid.Column="1" Height="20"/>
+        <Button x:Name="SearchButton" Content="Поиск по таблице" Panel.ZIndex="1" Width="140" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="SearchButton_Click" Grid.Column="1" Height="20"/>
 
 
     </Grid>

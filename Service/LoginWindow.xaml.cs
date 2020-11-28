@@ -39,7 +39,7 @@ namespace Service
 
         public void TryOpenMenuWindow(string login, string password)
         {
-            Variables.InitConn();
+            Variables.InitConnSett();
 
             Regex regex = new Regex(@"^Service");
             if (!regex.IsMatch(login))
