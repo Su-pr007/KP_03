@@ -147,19 +147,21 @@ namespace Service.Properties
 					sql += "`" + Variables.FindMyDGByName(SelectedDataGrid.Name).ColumnsEng[i] + "`";
 					if (IsChange)
 					{
-						sql += " = '" + Variables.CheckForDate(Values[i]) + "'";
+						if (Values[i] == "") sql += " = null";
+						else sql += " = \"" + Variables.CheckForDate(Values[i]) + "\"";
                     }
 					sql += i == Values.Count - 1 ? " " : ", ";
 				}
 				if (IsChange)
 				{
-					sql += "WHERE `" + Variables.FindMyDGByName(SelectedDataGrid.Name).PK + "` LIKE '" + Values[0] + "';";
+					sql += "WHERE `" + Variables.FindMyDGByName(SelectedDataGrid.Name).PK + "` LIKE \"" + Values[0] + "\";";
 				}
                 else {
 					sql += ") VALUES (";
 					for(int i = 1; i < Values.Count; i++)
                     {
-						sql += "'"+ Variables.CheckForDate(Values[i])+"'";
+						if(Values[i]=="") sql+="null";
+						else sql += "'" + Variables.CheckForDate(Values[i]) + "'";
 						sql += i == Values.Count - 1 ? " " : ", ";
 					}
 					sql += ");";
