@@ -12,7 +12,7 @@
         <TextBox x:Name="OrdererNameTB" HorizontalAlignment="Right" Margin="0,34,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="21"/>
         <Label Content="Тип устройства:" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ModelTypeTB" HorizontalAlignment="Right" Margin="0,68,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="21"/>
-        <Label Content="Название устройства:" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
+        <Label Content="Модель устройства:" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ModelNameTB" HorizontalAlignment="Right" Margin="0,102,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="21"/>
         <Label Content="Описание неисправности:" HorizontalAlignment="Left" Margin="10,133,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="FaultDescTB" HorizontalAlignment="Right" Margin="0,136,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="21"/>

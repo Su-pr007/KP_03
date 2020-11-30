@@ -75,15 +75,6 @@ namespace Service
 
             conn.Close();
 
-/*
-            if (ReportWindow.isLoaded)
-            {
-                var NameAtReportTables = FindMyDGByName(DataGridToFill.Name);
-                NewDataTable.TableName = DataGridToFill.Name;
-                NameAtReportTables.DV = NewDataTable.DefaultView;
-            }
-            else
-            {*/
                 MyDataGrid thisTable = new MyDataGrid()
                 {
                     DV = NewDataTable.DefaultView,
@@ -92,7 +83,6 @@ namespace Service
                 };
                 thisTable.DV.Table.TableName = DataGridToFill.Name;
                 ReportTables.Add(thisTable);
-            /*}*/
 
             DataGridToFill.ItemsSource = NewDataTable.DefaultView;
         }

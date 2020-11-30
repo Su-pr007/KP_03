@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -154,25 +155,23 @@ namespace Service
             {
 				Notification.ShowNotice("Выберите удаляемые строки");
 			}
-			if (res.ToString().ToLower() == "yes")
+			if (res.ToLower() == "yes")
 			{
 				MyDataGrid thisDG = FindMyDGByName(DataGrids[SelectedTabIndex].Name);
 
 				DataGrid SelectedDataGrid = DataGrids.ElementAt(SelectedTabIndex);
 
-				string sql = "DELETE FROM " + DataGrids.ElementAt(SelectedTabIndex).Name + " WHERE ";
+				string sql = "DELETE FROM " + SelectedDataGrid.Name + " WHERE ";
 				
 				
 				for(int i = 0; i < ItemsCount; i++)
                 {
-					sql += MyDGs[SelectedTabIndex].PK + " = '" + thisDG.DV.Table.Rows[(SelectedDataGrid.SelectedIndex) + i][0];
-                    sql += i == ItemsCount - 1? "';":"' or ";
+					sql += MyDGs[SelectedTabIndex].PK + " = \"" + thisDG.DV.Table.Rows[(SelectedDataGrid.SelectedIndex) + i][0]+ "\"";
+                    sql += i == ItemsCount - 1? ";":" or ";
 				}
 
 				ExecuteSqlQueryNoResults(sql);
 			}
-
-
 		}
 
 		// Кнопка изменения строки
@@ -190,12 +189,15 @@ namespace Service
 			{
 				Notification.ShowNotice("Выберите одну строку");
 			}
+
+			ReloadTables();
 		}
 
 		// Кнопка добавления строки
 		private void AddRowButton_Click(object sender, RoutedEventArgs e)
 		{
 			new DataManipulationsWindow(DataGrids.ElementAt(SelectedTabIndex), false).ShowDialog();
+			ReloadTables();
 		}
 
 		// Выполнение запроса без возврата результата
@@ -220,14 +222,24 @@ namespace Service
 			catch (Exception err)
 			{
 				Console.WriteLine(err.Message);
-				Notification.ShowError("Ошибка при выполнении команды в базе данных");
+				if (err.Message.Split(' ')[1]=="delete" && err.Message.Split(' ')[5] == "parent")
+                {
+					Regex regex = new Regex(@"\(`\w*?`\.`\w*?`,");
+					var asdffa = regex.Match(err.Message);
+
+					string ConstraintInTable = asdffa.Value.Trim(new char[] { '(', ',' });
+					Notification.ShowError($"Эта строка является родительской для другой. Сначала удалите дочернюю строку.\nДочерняя строка в таблице  {ConstraintInTable}.");
+				}
+                else
+                {
+					Notification.ShowError("Ошибка при выполнении команды в базе данных.");
+                }
 			}
 			finally
 			{
 				conn.Close();
 			}
 		}
-
 
 		// Обновление на F5
         private void Window_KeyDown(object sender, KeyEventArgs e)

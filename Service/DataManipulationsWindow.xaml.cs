@@ -76,7 +76,7 @@ namespace Service.Properties
 			DMDataGrid.CanUserAddRows = false;
 			DMDataGrid.CanUserDeleteRows = false;
 		}
-		// Вставить только значения. Названия полей функция берёт из переменной Columns
+		// Вставить только значения. Названия полей метод берёт из переменной Columns
 		public DataTable CreateDMDataTable(List<object> Values)
         {
 
@@ -147,7 +147,7 @@ namespace Service.Properties
 					sql += "`" + Variables.FindMyDGByName(SelectedDataGrid.Name).ColumnsEng[i] + "`";
 					if (IsChange)
 					{
-						sql += " = '" + CheckForDate(Values[i]) + "'";
+						sql += " = '" + Variables.CheckForDate(Values[i]) + "'";
                     }
 					sql += i == Values.Count - 1 ? " " : ", ";
 				}
@@ -159,7 +159,7 @@ namespace Service.Properties
 					sql += ") VALUES (";
 					for(int i = 1; i < Values.Count; i++)
                     {
-						sql += "'"+CheckForDate(Values[i])+"'";
+						sql += "'"+ Variables.CheckForDate(Values[i])+"'";
 						sql += i == Values.Count - 1 ? " " : ", ";
 					}
 					sql += ");";
@@ -184,24 +184,6 @@ namespace Service.Properties
 					Close();
                 }
 			}
-
-		}
-		public string CheckForDate(string StringFrom)
-        {
-			string StringTo = StringFrom;
-			if (new Regex(@"^\d\d\.\d\d\.\d\d\d?\d? \d?\d:\d\d:\d\d$").IsMatch(StringFrom))
-			{
-				string[] DTimeStrings = StringFrom.Split(' ');
-				string[] Date = DTimeStrings[0].Split('.');
-				StringTo = Date[2] + "-" + Date[1] + "-" + Date[0] + " " + DTimeStrings[1];
-			}
-			else if (new Regex(@"^\d\d\.\d\d\.\d\d\d?\d?$").IsMatch(StringFrom))
-			{
-				string[] DTimeStrings = StringFrom.Split(' ');
-				string[] Date = DTimeStrings[0].Split('.');
-				StringTo = Date[2] + "-" + Date[1] + "-" + Date[0] + " 0:00:00";
-			}
-			return StringTo;
 
 		}
 		private void CancelButton_Click(object sender, RoutedEventArgs e)

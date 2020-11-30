@@ -19,7 +19,6 @@ C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\MySql.Data.dll
 C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\Google.Protobuf.dll
 C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\Zstandard.Net.dll
 C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\K4os.Compression.LZ4.Streams.dll
-C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\BouncyCastle.Crypto.dll
 C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\Ubiety.Dns.Core.dll
 C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\Renci.SshNet.dll
 C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Memory.dll
@@ -46,3 +45,15 @@ C:\Users\Максим\source\repos\Service\Service\obj\x64\ver.1\Service.csproj.
 C:\Users\Максим\source\repos\Service\Service\obj\x64\ver.1\Service.csproj.CoreCompileInputs.cache
 C:\Users\Максим\source\repos\Service\Service\obj\x64\ver.1\Service.csproj.CopyComplete
 C:\Users\Максим\source\repos\Service\Service\obj\x64\ver.1\Service.exe
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\GemBox.Spreadsheet.dll
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Configuration.ConfigurationManager.dll
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Security.AccessControl.dll
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Security.Permissions.dll
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Security.Principal.Windows.dll
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\GemBox.Spreadsheet.xml
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Configuration.ConfigurationManager.xml
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Security.AccessControl.xml
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Security.Permissions.xml
+C:\Users\Максим\source\repos\Service\Service\bin\x64\ver.1\System.Security.Principal.Windows.xml
+C:\Users\Максим\source\repos\Service\Service\obj\x64\ver.1\CreateOrderWindow.g.cs
+C:\Users\Максим\source\repos\Service\Service\obj\x64\ver.1\CreateOrderWindow.baml

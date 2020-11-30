@@ -139,7 +139,7 @@ namespace Service
 
 
 
-
+            // Заполнение строк
             for (int i = 0; i < Table.Columns.Count; i++)
             {
                 for(int j = 0;j< Table.Rows.Count; j++)
@@ -149,22 +149,33 @@ namespace Service
                 }
             }
 
+            // Создание колонок
             for (int i = 0; i < Table.Columns.Count; i++)
             {
                 sheet.Rows[0].Cells[i].Style.Borders.SetBorders(MultipleBorders.All, SpreadsheetColor.FromArgb(0, 0, 0), LineStyle.Thin);
+                sheet.Rows[0].Cells[i].Style.Borders.SetBorders(MultipleBorders.Bottom, SpreadsheetColor.FromArgb(0,0,0), LineStyle.Medium);
+                sheet.Rows[0].Cells[i].Style.FillPattern.SetSolid(SpreadsheetColor.FromArgb(230,230,230));
+
                 sheet.Rows[0].Cells[i].Value = Table.Columns[i].ColumnName;
                 sheet.Columns[i].AutoFit();
             }
 
             try
             {
-                string ExcelFilePath = "TestExcel.xlsx";
-                workbook.Save(ExcelFilePath);
-                if (File.Exists(ExcelFilePath))
+                string ExcelFileName = "TestExcel.xlsx";
+
+                ExcelFileName = Table.TableName+".xlsx";
+                string ExcelFilePath = "saves\\";
+                if (!Directory.Exists(ExcelFilePath))
+                {
+                    Directory.CreateDirectory(ExcelFilePath);
+                }
+                workbook.Save(ExcelFilePath+"\\"+ExcelFileName);
+                if (File.Exists(ExcelFilePath + "\\"+ExcelFileName))
                 {
                     if(Notification.ShowAsk("Сохранение завершено. Открыть файл?").ToString().ToLower() == "yes")
                     {
-                        Process.Start(ExcelFilePath);
+                        Process.Start(ExcelFilePath + "\\"+ExcelFileName);
                     }
                 }
             }

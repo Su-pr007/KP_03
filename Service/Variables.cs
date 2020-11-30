@@ -238,47 +238,9 @@ namespace Service
 		public static DataView GetTableDataByTableName(string TableName)
 		{
 			DataView TableData;
-			try
-			{
-				switch (TableName)
-				{
-					case "employees":
-						TableData = new serviceDataSetTableAdapters.employeesTableAdapter().GetData().DefaultView;
-						break;
-					case "fault_types":
-						TableData = new serviceDataSetTableAdapters.fault_typesTableAdapter().GetData().DefaultView;
-						break;
-					case "orders":
-						TableData = new serviceDataSetTableAdapters.ordersTableAdapter().GetData().DefaultView;
-						break;
-					case "parts":
-						TableData = new serviceDataSetTableAdapters.partsTableAdapter().GetData().DefaultView;
-						break;
-					case "parts_faults":
-						TableData = new serviceDataSetTableAdapters.parts_faultsTableAdapter().GetData().DefaultView;
-						break;
-					case "positions":
-						TableData = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().DefaultView;
-						break;
-					case "repaired_models":
-						TableData = new serviceDataSetTableAdapters.repaired_modelsTableAdapter().GetData().DefaultView;
-						break;
-					case "served_shops":
-						TableData = new serviceDataSetTableAdapters.served_shopsTableAdapter().GetData().DefaultView;
-						break;
-					case "PersonnelDepartment":
-						TableData = CreateDataView("PersonnelDepartment");
-						break;
-					case "FaultsList":
-						TableData = CreateDataView("FaultsList");
-						break;
-					case "OrdersList":
-						TableData = CreateDataView("OrdersList");
-						break;
-					default:
-						TableData = new serviceDataSetTableAdapters.employeesTableAdapter().GetData().DefaultView;
-						break;
-				}
+            try
+            {
+                TableData = CreateDataView(TableName);
 
 				DataTable RusColumnsTable = new DataTable();
 				RusColumnsTable = TranslateColumns(TableData.Table);
@@ -287,13 +249,13 @@ namespace Service
 
 
 				return RusColumnsTable.DefaultView;
-			}
-			catch(Exception err)
-			{
-				Console.WriteLine("Error: " + err.Message);
-				Notification.ShowError("Не удалось получить данные из базы");
-			}
-			return null;
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine("Error: " + err.Message);
+                Notification.ShowError("Не удалось получить данные из базы");
+            }
+            return null;
 
 		}
 
@@ -313,38 +275,68 @@ namespace Service
 				case "OrdersList":
 					sql = OrdersList;
 					break;
+				case "employees":
+					sql = "SELECT * FROM employees;";
+					break;
+				case "fault_types":
+					sql = "SELECT * FROM fault_types;";
+					break;
+				case "orders":
+					sql = "SELECT * FROM orders;";
+					break;
+				case "parts":
+					sql = "SELECT * FROM parts;";
+					break;
+				case "parts_faults":
+					sql = "SELECT * FROM parts_faults;";
+					break;
+				case "positions":
+					sql = "SELECT * FROM positions;";
+					break;
+				case "repaired_models":
+					sql = "SELECT * FROM repaired_models;";
+					break;
+				case "served_shops":
+					sql = "SELECT * FROM served_shops;";
+					break;
 			}
 
-            MySqlCommand SqlCommand = new serviceDataSetTableAdapters.employeesTableAdapter().Adapter.SelectCommand;
 
-            try
+			MySqlConnection conn = new MySqlConnection(ConnSett.ConnectionString);
+			MySqlCommand SqlCommand = new MySqlCommand(sql, conn);
+
+			conn.Open();
+			MySqlDataReader reader = SqlCommand.ExecuteReader();
+
+			NewTable.TableName = DataGridName;
+			if (reader.HasRows)
 			{
-				SqlCommand.CommandText = sql;
-				MySqlDataReader reader = SqlCommand.ExecuteReader();
+				reader.Read();
 
-				NewTable = reader.GetSchemaTable();
-				if (reader.HasRows)
+				DataTable Schema = reader.GetSchemaTable();
+				for (int i = 0; i < reader.FieldCount; i++)
 				{
-					for(int i = 0; i < reader.FieldCount; i++)
-                    {
-						NewTable.Columns.Add(reader.GetFieldValue<DataColumn>(i));
-                    }
-					while (reader.Read())
+					NewTable.Columns.Add(Schema.Rows[i].ItemArray[0].ToString());
+				}
+				List<string> NewString = new List<string>();
+				for (int i = 0; i < reader.FieldCount; i++)
+				{
+					var ThisCell = reader.GetValue(i);
+					NewString.Add(ThisCell.ToString());
+				}
+				NewTable.Rows.Add(NewString.ToArray());
+
+				while (reader.Read())
+				{
+					NewString = new List<string>();
+					for (int i = 0; i < reader.FieldCount; i++)
 					{
-						string[] NewString = new string[] { };
-						for (int i = 0; i < reader.FieldCount; i++)
-                        {
-							NewString.Append(reader.GetValue(i));
-						}
-						NewTable.Rows.Add(NewString);
+						NewString.Add(reader.GetValue(i).ToString());
 					}
+					NewTable.Rows.Add(NewString.ToArray());
 				}
 			}
-            catch(Exception err)
-            {
-                Console.WriteLine(err.Message);
-                Notification.ShowError("Не удалось выполнить запрос");
-            }
+			conn.Close();
 
 
 			return NewTable.DefaultView;
@@ -393,6 +385,25 @@ namespace Service
 			MyDGs.Clear();
 			MenuWindow_Window.Show();
 			WindowFrom.Hide();
+		}
+
+
+		public static string CheckForDate(string StringFrom)
+		{
+			string StringTo = StringFrom;
+			if (new Regex(@"^\d\d\.\d\d\.\d\d\d?\d? \d?\d:\d\d:\d\d$").IsMatch(StringFrom))
+			{
+				string[] DTimeStrings = StringFrom.Split(' ');
+				string[] Date = DTimeStrings[0].Split('.');
+				StringTo = Date[2] + "-" + Date[1] + "-" + Date[0] + " " + DTimeStrings[1];
+			}
+			else if (new Regex(@"^\d\d\.\d\d\.\d\d\d?\d?$").IsMatch(StringFrom))
+			{
+				string[] DTimeStrings = StringFrom.Split(' ');
+				string[] Date = DTimeStrings[0].Split('.');
+				StringTo = Date[2] + "-" + Date[1] + "-" + Date[0] + " 0:00:00";
+			}
+			return StringTo;
 		}
 
 
