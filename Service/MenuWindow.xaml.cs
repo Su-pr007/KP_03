@@ -71,7 +71,15 @@ namespace Service
             }
             else
             {
-                LoginTextBlock.Text = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().ElementAt(ProfileId-1).p_name;
+                try
+                {
+                    LoginTextBlock.Text = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().ElementAt(ProfileId-1).p_name;
+                }
+                catch(Exception err)
+                {
+                    Console.WriteLine(err.Message);
+                    Notification.ShowError(err.Message);
+                }
             }
             
         }

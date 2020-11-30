@@ -69,6 +69,21 @@ namespace Service
                     Variables.InitVariables();
                     isConnected = true;
                 }
+                MySqlDataReader reader = new MySqlCommand("show tables;", conn).ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    int i = 0;
+                    while (reader.Read())
+                    {
+                        i++;
+                    }
+                    if (i == 9)
+                    {
+                        Notification.ShowError("Ошибка подключения. Возможно, указано неверное имя базы данных.");
+                        isConnected = false;
+                    }
+                }
             }
             catch (Exception err)
             {
