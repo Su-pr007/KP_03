@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -184,7 +185,6 @@ namespace Service
                 Console.WriteLine(err.Message);
                 Notification.ShowError(err.Message);
             }
-            /*Excel.visible = true;*/
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
@@ -209,20 +209,21 @@ namespace Service
         {
             SelectedTabIndex = ReportTabs.SelectedIndex;
             string TableName = "";
-            switch (SelectedTabIndex)
+            var dadad = ReportTabs.Items[0].ToString().Split(':');
+            switch (dadad[dadad.Count()-2])
             {
-                case 0:
+                case "Отдел кадров Content":
                     TableName = "PersonnelDepartment";
                     break;
-                case 1:
+                case "Список неисправностей Content":
                     TableName = "FaultsList";
                     break;
-                case 2:
+                case "Список заказов Content":
                     TableName = "OrdersList";
                     break;
             }
             if (isLoaded)
-            {
+            {   
                 Variables.CurrentDataGridName = Variables.FindMyDGByName(TableName).Name;
             }
         }
