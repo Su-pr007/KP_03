@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -94,77 +95,91 @@ namespace Service
 			}
 			if (FoundRow)
 			{
-				// Фильтрация "Или"
-				if (!AndCheckBox.IsChecked.Value)
+				string sql = "";
+				MyDataGrid thisDG = Variables.FindMyDGByName(Variables.CurrentDataGridName);
+
+
+				switch (thisDG.Name)
 				{
-					for (int i = 0; i < DGTable.Rows.Count; i++)
-					{
-						for (int j = 0; j < DGTable.Columns.Count; j++)
-						{
-							if (FilterDGData[j] == "") continue;
-							Regex regex;
-							try
-							{
-								regex = new Regex(@"" + FilterDGData[j]);
-							}
-							catch
-							{
-								msg = "Введён недопустимый символ";
-								break;
-							}
-
-							if (regex.IsMatch(DGTable.Rows[i].ItemArray[j].ToString()))
-							{
-								DataRow NewRow = FilteredDT.NewRow();
-								NewRow.ItemArray = DGTable.Rows[i].ItemArray;
-								FilteredDT.Rows.Add(NewRow);
-								break;
-							}
-						}
-					}
-
+					case "PersonnelDepartment":
+						sql = Variables.PersonnelDepartment;
+						break;
+					case "FaultsList":
+						sql = Variables.FaultsList;
+						break;
+					case "OrdersList":
+						sql = Variables.OrdersList;
+						break;
+					case "employees":
+						sql = "SELECT * FROM employees;";
+						break;
+					case "fault_types":
+						sql = "SELECT * FROM fault_types;";
+						break;
+					case "orders":
+						sql = "SELECT * FROM orders;";
+						break;
+					case "parts":
+						sql = "SELECT * FROM parts;";
+						break;
+					case "parts_faults":
+						sql = "SELECT * FROM parts_faults;";
+						break;
+					case "positions":
+						sql = "SELECT * FROM positions;";
+						break;
+					case "repaired_models":
+						sql = "SELECT * FROM repaired_models;";
+						break;
+					case "served_shops":
+						sql = "SELECT * FROM served_shops;";
+						break;
 				}
-				// Фильтрация "И"
-				else
-				{
-					Dictionary<int, string> q = new Dictionary<int, string>();
-					for (int i = 0; i < FilterDGData.Count; i++) if (FilterDGData[i] != "") q.Add(i, FilterDGData[i]);
 
-					DataTable CurrentDT = Variables.FindMyDGByName(Variables.CurrentDataGridName).DV.Table;
-
-					foreach (var FilterRow in q)
+				sql = sql.Split(';')[0] + " WHERE ";
+				for(int i = 0;i< FilterDGData.Count; i++)
+                {
+					if (FilterDGData[i] == "") continue;
+                    
+					sql += "`"+ Variables.DictionarySearchKey(Variables.ColumnsDictionary, thisDG.DV.Table.Columns[i].ColumnName)+"` LIKE \""+FilterDGData[i]+"\"";
+                    
+					if (AndCheckBox.IsChecked.Value)
 					{
-						for (int j = 0; j < CurrentDT.Rows.Count; j++)
-						{
-							for (int i = 0; i < CurrentDT.Rows.Count; i++)
-							{
-								Regex regex;
-
-								try
-								{
-									regex = new Regex(@"" + FilterRow.Value);
-								}
-								catch
-								{
-									msg = "Введён недопустимый символ";
-									break;
-								}
-								if (!regex.IsMatch(CurrentDT.Rows[i].ItemArray[FilterRow.Key].ToString()))
-								{
-									CurrentDT.Rows.RemoveAt(i);
-									break;
-								}
-							}
-
-						}
-
-					}
-
-					for (int i = 0; i < CurrentDT.Rows.Count; i++)
-					{
-						FilteredDT.Rows.Add(CurrentDT.Rows[i].ItemArray);
-					}
+						sql += " AND ";
+                    }
+                    else
+                    {
+						sql += " OR ";
+                    }
 				}
+				sql = new Regex(@"AND $").Replace(sql, ";");
+				sql = new Regex(@"OR $").Replace(sql, ";");
+
+
+				MySqlConnection conn = DBUtils.GetDBConnection(Variables.DBlogin, Variables.DBpassword);
+				MySqlCommand cmnd = new MySqlCommand(sql, conn);
+
+
+				conn.Open();
+				var reader = cmnd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+						List<string> ValuesStrings = new List<string>();
+						for (int i = 0; i < reader.FieldCount; i++)
+						{
+							ValuesStrings.Add(reader.GetValue(i).ToString());
+						}
+						DataRow NewRow = FilteredDT.NewRow();
+						NewRow.ItemArray = ValuesStrings.ToArray();
+						FilteredDT.Rows.Add(NewRow);
+					}
+                }
+				conn.Close();
+
+
+
 
 				Variables.FindMyDGByName(Variables.CurrentDataGridName).DV = FilteredDT.DefaultView;
 				Variables.FindMyDGByName(Variables.CurrentDataGridName).DG.ItemsSource = FilteredDT.DefaultView;

@@ -347,11 +347,11 @@ namespace Service
 		{
 			DataTable TableTo = new DataTable();
 			MyDataGrid thisDG = FindMyDGByName(TableFrom.TableName);
-            if (thisDG == null)
-            {
+			if (thisDG == null)
+			{
 				Notification.ShowError("");
 				return null;
-            }
+			}
 			thisDG.ColumnsEng = new List<string>();
 
 			foreach (DataColumn i in TableFrom.Columns)
@@ -359,7 +359,7 @@ namespace Service
 				TableTo.Columns.Add(DictionarySearch(ColumnsDictionary, i.ColumnName));
 				thisDG.ColumnsEng.Add(i.ColumnName);
 			}
-			foreach(DataRow i in TableFrom.Rows)
+			foreach (DataRow i in TableFrom.Rows)
 			{
 				TableTo.Rows.Add(i.ItemArray);
 			}
@@ -374,6 +374,19 @@ namespace Service
 				if (DictionaryFrom.Keys.ElementAt(i) == key || DictionaryFrom.Values.ElementAt(i) == key)
 				{
 					toReturn = DictionaryFrom.Values.ElementAt(i);
+					break;
+				}
+			}
+			return toReturn;
+		}
+		public static string DictionarySearchKey(Dictionary<string, string> DictionaryFrom, string key)
+		{
+			string toReturn = "error";
+			for (int i = 0; i < DictionaryFrom.Keys.Count; i++)
+			{
+				if (DictionaryFrom.Keys.ElementAt(i) == key || DictionaryFrom.Values.ElementAt(i) == key)
+				{
+					toReturn = DictionaryFrom.Keys.ElementAt(i);
 					break;
 				}
 			}

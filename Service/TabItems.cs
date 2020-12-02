@@ -91,6 +91,7 @@ namespace Service
                         VerticalAlignment = VerticalAlignment.Stretch,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         IsReadOnly = true,
+                        CanUserReorderColumns = false,
                     };
 
 
