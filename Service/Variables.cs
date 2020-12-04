@@ -246,8 +246,6 @@ namespace Service
 				RusColumnsTable = TranslateColumns(TableData.Table);
 				RusColumnsTable.TableName = TableName;
 
-
-
 				return RusColumnsTable.DefaultView;
             }
             catch (Exception err)

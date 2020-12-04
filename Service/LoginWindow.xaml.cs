@@ -186,10 +186,6 @@ namespace Service
                 case Key.F3:
                     GuestButton_Click(new object(), new RoutedEventArgs());
                     break;
-                // Убрать на релизе!!
-                case Key.F5:
-                    TryOpenMenuWindow("ServiceDBAdmin", "ServiceDBAdminPassword");
-                    break;
             }
         }
 

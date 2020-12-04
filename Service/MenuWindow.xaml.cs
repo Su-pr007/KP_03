@@ -109,25 +109,6 @@ namespace Service
         }
 
 
-        // УБРАТЬ
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.D1:
-                    ToTablesButton_Click(new object(), new RoutedEventArgs());
-                    break;
-                case Key.D2:
-                    ToQueriesButton_Click(new object(), new RoutedEventArgs());
-                    break;
-                case Key.D3:
-                    CreateOrderButton_Click(new object(), new RoutedEventArgs());
-                    break;
-                case Key.Back:
-                    ReturnButton_Click(new object(), new RoutedEventArgs());
-                    break;
-            }
-        }
 
         private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
         {

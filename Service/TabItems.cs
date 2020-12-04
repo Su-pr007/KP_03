@@ -150,8 +150,8 @@ namespace Service
                     {
                         Variables.MyDGs.Add(new MyDataGrid()
                         {
-                        DG = CurrentDataGrid,
-                        PK = PKey,
+                            DG = CurrentDataGrid,
+                            PK = PKey,
                         });
                         CurrentDataGrid.MouseDoubleClick += CurrentDataGrid_MouseDoubleClick;
                         Variables.TablesWindow_Window.RegisterName(CurrentDataGrid.Name, CurrentDataGrid);
