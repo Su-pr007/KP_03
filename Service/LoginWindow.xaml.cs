@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Common;
-using System.Diagnostics;
-using System.IO;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MySql.Data.MySqlClient;
 
 namespace Service
 {
@@ -78,7 +65,7 @@ namespace Service
                     {
                         i++;
                     }
-                    if (i == 9)
+                    if (i != 8)
                     {
                         Notification.ShowError("Ошибка подключения. Возможно, указано неверное имя базы данных.");
                         isConnected = false;
@@ -163,13 +150,6 @@ namespace Service
             LoginTextBox.Focus();
         }
 
-        private void Grid_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                Variables.ApplicationStop();
-            }
-        }
 
         private void GuestButton_Click(object sender, RoutedEventArgs e)
         {
@@ -202,6 +182,11 @@ namespace Service
         private void ConnSettingWindowButton_Click(object sender, RoutedEventArgs e)
         {
             new ConnSettingWindow().ShowDialog();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1) Variables.ShowHelp();
         }
     }
 }

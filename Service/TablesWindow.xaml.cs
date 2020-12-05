@@ -232,7 +232,13 @@ namespace Service
 				}
                 else
                 {
-					Notification.ShowError("Ошибка при выполнении команды в базе данных.");
+					string NotifMsg = "Ошибка при выполнении команды в базе данных.";
+					if(new Regex("command denied").IsMatch(err.Message))
+                    {
+						NotifMsg = "Нет прав на удаление.";
+                    }
+
+					Notification.ShowError(NotifMsg);
                 }
 			}
 			finally
@@ -249,7 +255,7 @@ namespace Service
 					ReloadTables();
 					break;
 				case Key.F1:
-					Variables.ShowHelp();
+					ShowHelp();
 					break;
 			}
 		}

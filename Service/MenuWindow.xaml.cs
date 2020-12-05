@@ -1,21 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Data.SqlClient;
-using MySql;
 using static Service.Variables;
-using System.Configuration;
 
 namespace Service
 {
@@ -28,7 +14,7 @@ namespace Service
         {
             InitializeComponent();
         }
-        
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Скрыть все кнопки
@@ -73,15 +59,15 @@ namespace Service
             {
                 try
                 {
-                    LoginTextBlock.Text = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().ElementAt(ProfileId-1).p_name;
+                    LoginTextBlock.Text = new serviceDataSetTableAdapters.positionsTableAdapter().GetData().ElementAt(ProfileId - 1).p_name;
                 }
-                catch(Exception err)
+                catch (Exception err)
                 {
                     Console.WriteLine(err.Message);
                     Notification.ShowError(err.Message);
                 }
             }
-            
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -114,6 +100,11 @@ namespace Service
         {
             new CreateOrderWindow().Show();
             Hide();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.F1) ShowHelp();
         }
     }
 }

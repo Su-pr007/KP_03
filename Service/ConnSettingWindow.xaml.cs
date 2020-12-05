@@ -84,6 +84,7 @@ namespace Service
         private void ConnectionSettingsWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape) CancelButton_Click(new object(), new RoutedEventArgs());
+            if (e.Key == Key.F1) Variables.ShowHelp();
         }
     }
 }

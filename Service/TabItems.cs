@@ -1,11 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -30,14 +24,14 @@ namespace Service
                 AllTabHeaders = new string[] { "Сотрудники", "Заказы", "Запчасти", "Должности", "Ремонтируемые модели", "Обслуживаемые магазины", "Виды неисправностей", };
                 AllTabNames = new string[] { "employees", "orders", "parts", "positions", "repaired_models", "served_shops", "fault_types", };
             }
-            else if (Window.Name=="ReportWindow")
+            else if (Window.Name == "ReportWindow")
             {
                 AllTabHeaders = new string[] { "Отдел кадров", "Список неисправностей", "Список заказов" };
                 AllTabNames = new string[] { "PersonnelDepartment", "FaultsList", "OrdersList" };
             }
 
             List<string> TabNames = new List<string>();
-            
+
 
             if (TabHeaders.Length == 1 && TabHeaders.First() == "*")
             {

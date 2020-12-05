@@ -66,7 +66,16 @@ namespace Service.Properties
 			{
 				if (IsChange)
                 {
-                    xsw.Add(Variables.FindMyDGByName(SelectedDataGrid.Name).DV.Table.Rows[SelectedDataGrid.SelectedIndex][i]);
+                    try
+                    {
+						xsw.Add(Variables.FindMyDGByName(SelectedDataGrid.Name).DV.Table.Rows[SelectedDataGrid.SelectedIndex][i]);
+
+                    }
+                    catch
+                    {
+						Notification.ShowError("Нет прав");
+						Hide();
+                    }
                 }
                 else xsw.Add("");
 			}
@@ -148,7 +157,7 @@ namespace Service.Properties
 					if (IsChange)
 					{
 						if (Values[i] == "") sql += " = null";
-						else sql += " = \"" + Variables.CheckForDate(Values[i]) + "\"";
+						else sql += " = '" + Variables.CheckForDate(Values[i]) + "'";
                     }
 					sql += i == Values.Count - 1 ? " " : ", ";
 				}
@@ -175,7 +184,14 @@ namespace Service.Properties
 			{
                 Console.WriteLine("Connection error!");
                 Console.WriteLine(err.Message);
-				Notification.ShowError("Не получен ответ от базы данных");
+				string NotificationMessage = "Не получен ответ от базы данных";
+				if (new Regex("command denied").IsMatch(err.Message))
+                {
+					NotificationMessage = "Нет прав на ";
+					if (new Regex("UPDATE command").IsMatch(err.Message)) NotificationMessage += "изменение.";
+					else NotificationMessage += "добавление.";
+                }
+				Notification.ShowError(NotificationMessage);
 			}
 			finally
 			{
